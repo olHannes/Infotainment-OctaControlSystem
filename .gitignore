@@ -1,0 +1,12 @@
+workspace/myenv/pyvenv.cfg
+workspace/myenv/bin/activate
+workspace/myenv/bin/activate.csh
+workspace/myenv/bin/activate.fish
+workspace/myenv/bin/Activate.ps1
+workspace/myenv/bin/flask
+workspace/myenv/bin/pint-convert
+workspace/myenv/bin/pip
+workspace/myenv/bin/pip3
+workspace/myenv/bin/pip3.11
+workspace/myenv/bin/pyserial-miniterm
+workspace/myenv/bin/pyserial-ports
