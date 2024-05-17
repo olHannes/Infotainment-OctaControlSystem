@@ -20,7 +20,7 @@ from btControl import *
 
 
 app = Flask(__name__)
-
+controller=None
 
 
 
@@ -72,17 +72,29 @@ def handle_ajax_request():
         connect_to_network(wifiNum-1, password)
 
     elif action == 'play':
-        controller = BluetoothController()
-        controller.play()
+        if controller:
+            controller.play()
+        else:
+            controller= BluetoothController()
+            controller.play()
     elif action == 'pause':
-        controller = BluetoothController()
-        controller.pause()
+        if controller:
+            controller.pause()
+        else:
+            controller = BluetoothController()
+            controller.pause()
     elif action == 'skip':
-        controller = BluetoothController()
-        controller.next()
+        if controller:
+            controller.next()
+        else:
+            controller = BluetoothController()
+            controller.next()
     elif action == 'prev':
-        controller = BluetoothController()
-        controller.previous()
+        if controller:
+            controller.previous()
+        else:
+            controller = BluetoothController()
+            controller.previous()
 
 
     elif action == 'deleteDTC':
