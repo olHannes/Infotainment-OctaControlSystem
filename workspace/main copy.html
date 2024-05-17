@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OC-S</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>
+
+/*---------------------------------------------------------------------------------------------------------Style for body*/
+body{
+    margin: 0; 
+    padding: 0; 
+    background-image: url('static\\image_1.jpg'); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    filter: brightness(100%);
+    overflow: hidden;
+}
+
+/*---------------------------------------------------------------------------------------------------------CSS-variables for color elements*/
+:root {
+    --text: #ffffff;
+
+    --sidePanel_1: #030f00;
+    --bar_1: rgba(0, 15, 24, 0.74);
+
+    --buttonContainerColor_1: #151515;
+    --buttonContainerOpacity: 0.74;
+
+
+    --volumeSliderTrack: #2e2e2e;
+    --volumeSliderBox_1: #003537;
+
+    /*Farben für das OBD-Panel*/
+    --obdColor: #022c3a;
+    --obdText: #04171d;
+    --obdBackground: #c4c4c4;
+
+    /*Color Profile 2*/
+    --sidePanel_2: #124a12;
+    --bar_2: #2c302c;
+    --buttonContainerColor_2: #202220;
+    --volumeSliderBox_2: #0b4c0b;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for start Panel Buttons*/
+.buttonContainer button {
+    border: none;
+    padding: 80px 80px;
+    border-radius: 56px;
+    cursor: pointer;
+    -webkit-box-shadow: 9px 9px 17px -1px black; 
+    box-shadow: 9px 9px 17px -1px black;
+    margin-top: 50px;
+    background-color: rgba(var(--buttonContainerColor_1), var(--buttonContainerOpacity));
+    background-color: white;
+
+}
+
+.buttonContainer button:hover {
+    opacity: 50%;
+}
+.btn1 {
+    background-image: url("static\\lightControl.png"); background-size: cover; background-position: center;
+}
+.btn2 {
+    background-image: url("static\\soundControl.png"); 
+    background-size: cover; 
+    background-position: center;
+}
+.btn3{
+    background-image: url("static\\obd_.png"); 
+    background-size: cover; 
+    background-position: center;
+}
+.btn4 {
+    background-image: url("static\\setting.png"); 
+    background-size: cover; 
+    background-position: center;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for Clock and Date*/
+#clock, #date {
+    margin-bottom: 20px;
+    font-size: large;
+    padding-left: 15px;
+    padding-right: 20px;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for "back to Start" Button*/
+.start{
+    position: fixed; 
+    top: 180px; 
+    left: 50px; 
+    background-image: url("static\\start.png"); 
+    background-size: cover; 
+    background-position: center;
+    height: 95px;
+    width: 95px;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for volume Slider*/
+.sliderVolumeLevel {
+    appearance: none;
+    transform-origin: 0 0;
+    width: 89%;
+    height: 7px;
+    position: absolute;
+    bottom: 54%;
+    right: 35px;
+    background: var(--volumeSliderTrack);
+    border-radius: 10px;
+    z-index: 2;
+}
+
+.sliderVolumeLevel::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none; 
+    width: 80px; 
+    height: 40px; 
+    background-image: url("static\\slider.png"); 
+    background-size: cover; 
+    background-position: center; 
+    -webkit-box-shadow: -9px 13px 15px -2px black; 
+    box-shadow: -9px 13px 15px -2px black; 
+    cursor: pointer;
+}
+.volumeLevelBox {
+    background-color: var(--volumeSliderBox_1);
+    height: 12%;
+    width: 65%;
+    position: absolute;
+    right: 4%;
+    bottom: 4px;
+    border-radius: 4px;
+}
+.slider-labels {
+    position: absolute;
+    top: 53px;
+    left: 5%;
+    height: 100%;
+    width: 92%;
+    display: flex;
+    z-index: 1;
+    color: var(--text);
+    font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: space-between;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for profile change Button*/
+.toggleButton {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    top: 50%;
+}
+
+#buttonImage {
+    position: relative;
+    width: 50%;
+    border-radius: 5px;
+    top: 0;
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------------------Style for ambientLight-Panel components*/
+.toggleContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.toggleContainer label {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.toggleContainer input[type="checkbox"] {
+    display: none;
+}
+
+.toggleContainer img {
+    width: 290px;
+    height: 160px;
+    cursor: pointer;
+    border-radius: 40px;
+}
+
+.toggleContainer input[type="checkbox"]:checked + img {
+    opacity: 1;
+    -webkit-box-shadow: 9px 9px 17px -1px white; 
+    box-shadow: 9px 9px 17px -1px white;
+}
+
+
+.color-picker {
+  display: flex; 
+  align-items: center; 
+  position: absolute; 
+  height: 150px; 
+  width: 150px; 
+  border-radius: 4%; 
+  top: 40%; 
+  right: 23%;
+}
+
+#color-picker-input {
+    height: 400px;
+    width: 150px;
+    position: absolute;
+    margin-left: 60px;
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------------------Style for sound-Panel Components*/
+#tip-container {
+    position: fixed;
+    bottom: 13%;
+    left: 67%;
+    transform: translateX(-50%);
+    background-color: #d3d3d3;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgb(3, 36, 78);
+    display: block;
+    height: 80px;
+    width: 450px;
+  }
+
+  #progress-bar {
+    height: 10px;
+    width: 100%;
+    background-color: #004b9b;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 3px;
+    animation: progressBar 3s linear forwards;
+  }
+
+  @keyframes progressBar {
+    0% { width: 100%; }
+    100% { width: 0;}
+  }
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------------------Style for obd Panel*/
+.OBDcontainer {
+    background-color: var(--obdColor); 
+    color: var(--text);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    width: auto;
+    height: 60px;
+}
+.OBDlabel {
+    font-weight: bold;
+    font-size: 130%;
+}
+.OBDdata {
+    font-size: 18px;
+    background-color: var(--obdText);
+    padding: 2px;
+    margin-top: 5px;
+}
+.liveIndikator{
+    height: 5%;
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------------------Style for settings Panel Components*/
+.toggle-buttons-container {
+    height: 78%;
+    width: 350px;
+    position: absolute;
+    right: 15%;
+    top: 6%;
+    background-color: #000000d3;
+}
+
+.toggle-button {
+    display: inline-block;
+    margin: 10px;
+}
+
+.toggle-button input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-button img {
+    cursor: pointer;
+    transition: opacity 0.3s, box-shadow 0.3s;
+}
+
+.toggle-button input[type="checkbox"]:checked + label img {
+    opacity: 1;
+    -webkit-box-shadow: 9px 9px 17px -1px white; 
+    box-shadow: 9px 9px 17px -1px white;
+}
+
+#colorSettings{
+    height: 50px;
+    width: 120px;
+    position: absolute;
+    right: 95%;
+    bottom: 8%;
+}
+
+
+/*---------------------------------------------------------------------------------------------------------Style for shutdown Switch*/
+.turnOffSwitch{
+    -webkit-appearance: none;
+    appearance: none;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+    width: 30vh;
+    height: 3px;
+    position: absolute;
+    top: 42%;
+    left: 22%;
+    background: var(--text);
+    border-radius: 4px;
+}
+.turnOffSwitch::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none; 
+    width: 70px; 
+    height: 70px; 
+    background-image: url("static\\turnOff.png");
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+}
+.turnOffSwitch2::-webkit-slider-thumb {
+    background-image: url("static\\turnOff_.png");
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for brightness-Level Slider*/
+.brightnessLevel{
+    appearance: none;
+    position: absolute;
+    top: 2%;
+    left: 19%;
+    width: 65%;
+    height: 15px;
+    border-radius: 20px;
+    background: linear-gradient(to right, black, white);
+}
+
+.brightnessLevel::-webkit-slider-thumb{
+    -webkit-appearance: none; 
+    appearance: none; 
+    width: 55px; 
+    height: 25px; 
+    background-image: url("static\\slider.png"); 
+    background-size: cover; 
+    background-position: center; 
+    -webkit-box-shadow: -9px 13px 15px -2px black; 
+    box-shadow: -9px 13px 15px -2px black; 
+    cursor: pointer;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for status console*/
+.console {
+    background-color: #000000;
+    padding: 4px;
+    color: #0ad017;
+    height: 200px;
+    width: 250px;
+    position: absolute;
+    left: 200px;
+    top: 48%;
+    overflow-y: auto;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    opacity: 75%;
+    border-radius: 5px;
+    -webkit-box-shadow: 9px 9px 17px -1px black; 
+    box-shadow: 9px 9px 17px -1px #393939;
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------------------Styles for shutdown Screen / Message*/
+.messageBody {
+    font-family: Arial, sans-serif;
+    background-color: #00455c;
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 70px;
+    margin-right: 70px;
+}
+.message {
+    font-size: 24px;
+    color: #333;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+.professional {
+    font-style: italic;
+    font-weight: bold;
+    color: #007bff;
+}
+
+
+
+</style>
+
+
+<body id="body">
+
+    <div style="display: flex; height: 100vh;" id="sidePanel">
+        <div style="background-color: var(--sidePanel_1); opacity: 90%; color: var(--text); padding: 20px; width: 150px; -webkit-box-shadow: 9px 9px 17px -1px var(--shadow); box-shadow: 9px 9px 17px -1px var(--shadow); font-family: 'Courier New', Courier, monospace;" id="sidePanel_">
+            <div id="clock"></div>
+            <div id="date"></div>
+
+            <button id="toggleButton" class="toggleButton">
+                <img id="buttonImage" src="static\Profil1.png" alt="Profilbild">
+            </button>
+
+
+        </div>
+        <div style="flex: 1;">
+        </div>
+    </div>
+
+
+    <div class="volumeLevelBox" id="volumeLevelBox" style="z-index: 90;">
+        <input type="range" min="0" max="100" value="10" step="1" class="sliderVolumeLevel" id="myRange" oninput="volumeChange(this.value)">
+        <div class="slider-labels">
+            <span></span>
+            <span> -∞ dB</span>
+            <span> -39 dB</span>
+            <span> -34 dB</span>
+            <span> -30 dB</span>
+            <span> -26 dB</span>
+            <span> -21 dB</span>        
+            <span> -17 dB</span>
+            <span> -13 dB</span>
+            <span> -8 dB</span>
+            <span> -4 dB</span>
+            <span> 0 dB</span>
+            <span></span>
+        </div>
+    </div>
+
+    
+
+
+
+
+    <div class="buttonContainer" id="buttonContainer" style="position: fixed; bottom: 30%; left: 19%; width: 65%; height: 45%; background-color: var(--buttonContainerColor_1); opacity: 80%; z-index: 9999; display: flex; align-items: center; padding-top: 1px; justify-content: space-around; border-radius: 25px;">
+        <button class="btn1" onclick="lightControlFunction()" id="btn1">   </button>
+        <button class="btn2" onclick="soundControlFunction()" id="btn2">   </button>
+        <button class="btn3" onclick="obdFunction()" id="btn3">   </button> 
+        <button class="btn4" onclick="settingsFunction()" id="btn4">   </button>
+    </div>
+    <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="startLabel">
+        <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Octavia Control System</div>
+    </div>
+
+
+
+
+
+    <div style="display: none; ", id="ambientLight_ControlPanel">
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="lightBar">
+            <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Ambient Light-Control Panel</div>
+        </div>
+        <div style="position: fixed; top: 24%; left: 20%; background-color: var(--buttonContainerColor_1); padding: 5px; border-radius: 20px;" id="seatLight">
+            <div class="toggleContainer">
+                <label for="toggleBtn1">
+                    <input type="checkbox" id="toggleBtn1">
+                    <img src="static\\vl.png" alt="Button 1">
+                </label>
+                <label for="toggleBtn2">
+                    <input type="checkbox" id="toggleBtn2">
+                    <img src="static\\vr.png" alt="Button 2">
+                </label>
+            </div>
+            <div class="toggleContainer">
+                <label for="toggleBtn3">
+                    <input type="checkbox" id="toggleBtn3">
+                    <img src="static\\hl.png" alt="Button 3">
+                </label>
+                <label for="toggleBtn4">
+                    <input type="checkbox" id="toggleBtn4">
+                    <img src="static\\hr.png" alt="Button 4">
+                </label>
+            </div>
+        </div>
+        
+        <div>
+            <button class="start" onclick="backToStart()"></button>
+        </div>
+        <div style="display: flex; align-items: center; position: absolute; height: 150px; width: 150px; top: 40%; right: 20%;">
+            <input type="color" id="color-picker-input" onchange="getColor()">
+        </div>
+
+    </div>
+       
+    
+
+
+
+
+
+
+
+<div style="display: none;" id="soundControl_Panel">
+    
+    <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="soundBar">
+        <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Sound-Control Panel</div>
+    </div>
+    <button class="start" onclick="backToStart()"></button>
+
+
+    <div id="tip-container">
+        <p style="margin: 0; font-size: 15px;">Info: schalte zuert die Anlage ein und warte auf eine Verbindung.</p>
+        <div id="progress-bar"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div style="display: none;" id="obd_Panel">
+    <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="obdBar">
+        <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">On_Board_Diagnose Panel</div>
+    </div>
+
+    <div id="obdInfo">
+        <h2 style="background-color: rgb(94, 2, 2); padding: 2px; color: white; position: absolute; top: -2%; left: 20%; padding-left: 30px; padding-right: 30px; border-radius: 5px; cursor: pointer; -webkit-box-shadow: 9px 9px 17px -1px black; box-shadow: 9px 9px 17px -1px black" onclick="obd_2Page()" id="obdPage2Btn">2. Seite</h2>
+        <div style="background-color: var(--obdBackground); border-radius: 40px; height: 580px; width: 700px; position: absolute; top: 8%; right: 18%; padding: 10px; overflow-y: auto;">
+            <div class="OBDcontainer-group" id="Drehzahl">
+                <div class="OBDcontainer">
+                    <div class="OBDlabel">Drehzahl:</div>
+                    <div class="OBDdata" id="rpm">-</div>
+                </div>
+                <div class="OBDcontainer" id="Geschwindigkeit">
+                    <div class="OBDlabel">Geschwindigkeit:</div>
+                    <div class="OBDdata" id="speed">-</div>
+                </div>
+                <div class="OBDcontainer" id="Motorkühlmittel">
+                    <div class="OBDlabel">Motorkühlmittel</div>
+                    <div class="OBDdata" id="coolant_temp">-</div>
+                </div>
+                <div class="OBDcontainer" id="Drehmoment">
+                    <div class="OBDlabel">Drehmoment:</div>
+                    <div class="OBDdata" id="engine_load">-</div>
+                </div>
+                <div class="OBDcontainer" id="Luftmasse">
+                    <div class="OBDlabel">Luftmasse:</div>
+                    <div class="OBDdata" id="maf">-</div>
+                </div>
+                <div class="OBDcontainer" id="Fahrzeit">
+                    <div class="OBDlabel">Fahrzeit:</div>
+                    <div class="OBDdata" id="runtime">-</div>
+                </div>
+            </div>
+            <div class="OBDcontainer-group">
+                <div class="OBDcontainer" id="Fehlerspeicher">
+                    <div class="OBDlabel">Fehlerspeicher:</div>
+                    <div class="OBDdata" id="dtc">-</div>
+                </div>
+                <div class="OBDcontainer" id="Kraftstoffsystemstatus">
+                    <div class="OBDlabel">Kraftstoffsystemstatus:</div>
+                    <div class="OBDdata" id="fuel_status">-</div>
+                </div>
+                <div class="OBDcontainer" id="Motorlast">
+                    <div class="OBDlabel">Motorlast:</div>
+                    <div class="OBDdata" id="load_abs">-</div>
+                </div>
+                <div class="OBDcontainer" id="Kraftstoffdruck">
+                    <div class="OBDlabel">Kraftstoffdruck:</div>
+                    <div class="OBDdata" id="fuel_pressure">-</div>
+                </div>
+                <div class="OBDcontainer" id="Kraftstoffverbrauchsrate">
+                    <div class="OBDlabel">Kraftstoffverbrauchsrate:</div>
+                    <div class="OBDdata" id="fuel_rate">-</div>
+                </div>
+                <div class="OBDcontainer" id="Identifikation">
+                    <div class="OBDlabel">Identifikation:</div>
+                    <div class="OBDdata" id="vin">-</div>
+                </div>
+                <div class="OBDcontainer" id="Batteriespannung">
+                    <div class="OBDlabel">Batteriespannung:</div>
+                    <div class="OBDdata" id="battery_voltage">-</div>
+                </div>
+                <div class="OBDcontainer" id="Fahrzeuginformationen">
+                    <div class="OBDlabel">Fahrzeuginformationen:</div>
+                    <div class="OBDdata" id="current_data">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="display: none; height: 580px; width: 1000px; position: absolute; top: 0; left: 0;" id="obdVisualisation">
+    <h2 style="background-color: rgb(94, 2, 2); padding: 2px; color: white; position: absolute; top: -2%; left: 20%; padding-left: 30px; padding-right: 30px; border-radius: 5px; cursor: pointer; -webkit-box-shadow: 9px 9px 17px -1px black; box-shadow: 9px 9px 17px -1px black;" onclick="obd_3Page()" id="obd1">Fehlerspeicher</h2>
+    <img src="static/tacho.png" alt="Tachometer" style="width: 50%; position: absolute; top: 100px; left: 200px; border-radius: 31px;box-shadow: 9px 9px 17px -1px black">
+    <img src="static/zeiger.png" alt="Zeiger" style="position: absolute; height: 180px; transform-origin: center 169px; left: 44%; top: 28.5%; transform: rotate(-92deg);transition: all 0.4s ease;" id="zeiger">
+    <div>
+        <div style="width: 150px; height: 450px; position: absolute; left: 74%; top: 18%;">
+            <img style="width: 80%; height: 100%; position: absolute; top: 0; left: 0; transition: height 0.2s ease-in-out; border-radius: 5%; box-shadow: 9px 9px 17px -1px black" src="static/Drehzahl.png" alt="Leere Säule">
+            <img style="width: 80%; height: 100%; position: absolute; top: 0; left: 0; transition: height 0.2s ease-in-out; border-radius: 5%;" src="static/Drehzahl_.png" alt="Gefüllte Säule" id="rpmLevel">
+            <img style="width: auto; height: 100%; position: absolute; top: 0; left: -10%; background-color: black; border-radius: 10px;" src="static/DrehzahlNum.png" alt="Drezhal Beschriftung">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; height: auto; width: 300px; background-color: black; box-shadow: 9px 9px 17px -1px black; position: relative; top: 18%; right: -900px; border-radius: 5px;">
+        <img src="static/Thermometer.png" alt="Thermometer" style="max-width: 65%; position: relative; z-index: 1;">
+        <div id="liquid" style="position: absolute; bottom: 8%; left: 40%; transform: translateX(-50%); width: 18%; height: 11%; background-color: #353567; z-index: 0;transition: all 0.4s ease;"></div>
+        <h1 style="color: white; background-color: darkslategrey; border-radius: 3px; padding: 4px; font-family: 'Courier New', Courier, monospace; font-size: 25px; z-index: 2; position: absolute; bottom: 0%; left: 54%;" id="digitalTemp"> 0°C</h1>
+    </div>
+    <div style="position: absolute; left: 20%; top: 80%;">
+        <div style="padding: 5px; width: 363px; border-radius: 5px; position: absolute; background-color: rgb(78, 78, 78);">
+            <img src="static/battery.png" alt="BatteryVoltage" style="height: 75px; z-index: 5; position: relative;">
+            <div style="background-color: rgb(180, 6, 6); height: 42%; width: 0.5%; position: absolute; left: 63%; top: 22%; z-index: 3; transition: all 0.4s ease;" id="voltageG12"></div>
+            <div style="background-color: rgb(9, 6, 180); height: 42%; width: 0.5%; position: absolute; right: 36.5%; top: 22%; z-index: 3; transition: all 0.4s ease;" id="voltageU12"></div>
+            <div style="background-color: white; height: 42%; width: 0.5%; position: absolute; left: 63%; top: 22%; z-index: 4;"></div>
+            <h1 style="color: white; font-family: 'Courier New', Courier, monospace; font-size: 75%; position: absolute; left: 58.5%; bottom: 68%; z-index: 5;">12.0V</h1>
+            <h1 style="color: white; font-family: 'Courier New', Courier, monospace; font-size: 75%; position: absolute; left: 58.5%; bottom: 8%; z-index: 5;" id="voltage">12.0V</h1>
+        </div>
+    </div>
+</div>
+
+<div style="display: none; height: 580px; width: 1000px; position: absolute; top: 0; left: 0;" id="obdErrorPage">
+    <h2 style="background-color: rgb(94, 2, 2); padding: 2px; color: white; position: absolute; top: -2%; left: 20%; padding-left: 30px; padding-right: 30px; border-radius: 5px; cursor: pointer; -webkit-box-shadow: 9px 9px 17px -1px black; box-shadow: 9px 9px 17px -1px black;" onclick="obd_1Page()" id="obd1">1. Seite</h2>
+    <div style="width: 49%; position: absolute; top: 15%; left: 40%; background-color: gray; border-radius: 17px; padding: 10px;">
+        <h1 style="text-align: center; color: white;">OBD-II Fehlercodes</h1>
+        <table id="errorTable" style="width: 80%; border-collapse: collapse; margin: 20px auto;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Fehlercode</th>
+                </tr>
+            </thead>
+            <tbody id="errorBody">
+            </tbody>
+        </table>
+        <button style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;" onclick="clearErrorCodes()" >Fehlerspeicher löschen</button>
+    </div>
+</div>
+
+
+
+<div id="additiveComponents" style="display: none;">
+    <img id="live" src="static\\live.png" alt="liveIndicator" style="height: 50px; width: 110px; border-radius: 51px; margin-left: 50px; position: absolute; top: 10px; right: 10px;z-index: 80;">
+    <button class="start" onclick="backToStart()" id="startButton_obd"></button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="display: none;" id="settings">
+    <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="settingsBar">
+        <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Settings</div>
+    </div>
+
+    <div class="console" id="console"> </div>
+    <input type="range" min="0" max="100" value="0" step="1" class="turnOffSwitch" id="turnOffSwitch">
+    <div>
+        <input type="range" min="50" max="200" value="100" step="1" class="brightnessLevel" id="brightnessLevel" oninput="brightnessLevelChange(this.value)">
+    </div>
+
+
+
+    <div id="colorContainer" class="toggle-buttons-container">
+        <h1 style="margin: 7px; font-family: 'Courier New', Courier, monospace; color: #ffffff; font-size: 18px;">Color Settings for Profile 2</h1>
+        <div style="display: flex; align-items: center; justify-content: space-around;"> 
+            <div class="toggle-button">
+                <input type="checkbox" id="colorBtn2" onclick="toggleShadow('colorBtn2')">
+                <label for="colorBtn2"><img src="static/settings_sideBar.png" alt="Button 2" style="height: 280px;"></label>
+            </div>
+            <div class="toggle-button">
+                <input type="checkbox" id="colorBtn4" onclick="toggleShadow('colorBtn4')">
+                <label for="colorBtn4"><img src="static/settings_volumeBox.png" alt="Button 4" style="height: 280px;"></label>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; flex-direction: column; justify-content: space-around;">
+            <div class="toggle-button">
+                <input type="checkbox" id="colorBtn1" onclick="toggleShadow('colorBtn1')">
+                <label for="colorBtn1"><img src="static/settings_bar.png" alt="Button 1" style="height: 90px;"></label>
+            </div>
+            <div class="toggle-button">
+                <input type="checkbox" id="colorBtn3" onclick="toggleShadow('colorBtn3')">
+                <label for="colorBtn3"><img src="static/settings_btnContainer.png" alt="Button 3" style="height: 120px;"></label>
+            </div>
+        </div>
+
+        <input type="color" id="colorSettings" onchange="setColor()">
+    </div>
+
+
+    <div style="position: absolute; top: 10%; right: 45%; box-shadow: 9px 9px 17px -1px black;">
+        <button id="bgButton" style="height: 170px; display: flex;  align-items: center; flex-direction: column; background-color: #313131;">
+            <h1 style="font-family: 'Courier New', Courier, monospace; color: #e4dbdb; font-size: 19px;">Change Background</h1>
+            <img id="buttonImg" src="static/image_2.jpg" alt="Button Image" style="height: 190px; width: auto;">
+        </button>
+    </div>
+
+
+
+
+
+    <div>
+        <button class="start" onclick="backToStart()"></button>
+    </div>
+</div>
+
+
+
+<div id="exitPanel" class="messageBody" style="display: none;">
+    <div class="message">
+        <p><span class="professional">Important:</span> Please ensure the 'OctaControl-System' is powered down correctly.</p>
+        <p><span class="professional">Wichtig:</span> Bitte stellen Sie sicher, dass das 'OctaControl-System' ordnungsgemäß heruntergefahren wird.</p>
+    </div>
+    <h3 style="font-size: 146%; position: absolute; left: 7%; top: 99%; color: white; font-family: 'Courier New', Courier, monospace;" id="countdown">Shutdown in 5...</h3>
+</div>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    //---------------------------------------------------------------------------------------------------------globale Variablen
+    var showOBDData     =   false;
+    
+    
+    
+    //---------------------------------------------------------------------------------------------------------live Clock
+    function updateTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var dateString = now.toLocaleDateString('de-DE', dateOptions);
+        
+            document.getElementById('clock').textContent = timeString;
+            document.getElementById('date').textContent = dateString;
+        
+        }
+        setInterval(updateTime, 1000);
+    
+    
+    //---------------------------------------------------------------------------------------------------------volume change
+    function volumeChange(value){
+        document.getElementById("console").textContent+='Lautstärke: '+ value+"%\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        sendData("volume", {"level": value});
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------website brightness Change
+    function brightnessLevelChange(value){
+        var wert=value-50;
+        document.getElementById("console").textContent+='Helligkeit: '+ wert+"%\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        document.body.style.filter = "brightness(" + value + "%)";
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------change Color Profile
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        console.log("change Profile");
+        var image = document.getElementById('buttonImage');
+    
+        if (image.src.includes("Profil1")) {
+            document.getElementById("console").textContent+="change to Profile 2\n";
+            document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+            image.src = "static\\Profil2.png";
+            document.getElementById('startLabel').style.backgroundColor = "var(--bar_2)";
+            document.getElementById('lightBar').style.backgroundColor = "var(--bar_2)";
+            document.getElementById('soundBar').style.backgroundColor = "var(--bar_2)";
+            document.getElementById('obdBar').style.backgroundColor = "var(--bar_2)";
+            document.getElementById('settingsBar').style.backgroundColor = "var(--bar_2)";
+            document.getElementById('sidePanel_').style.backgroundColor = "var(--sidePanel_2)";
+            document.getElementById('volumeLevelBox').style.backgroundColor = "var(--volumeSliderBox_2)";
+            document.getElementById('buttonContainer').style.backgroundColor = "var(--buttonContainerColor_2)";
+            document.getElementById('seatLight').style.backgroundColor = "var(--buttonContainerColor_2)";
+        } else {
+            document.getElementById("console").textContent+="change to Profile 1\n";
+            document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+            image.src = "static\\Profil1.png";
+            document.getElementById('startLabel').style.backgroundColor = "var(--bar_1)";
+            document.getElementById('lightBar').style.backgroundColor = "var(--bar_1)";
+            document.getElementById('soundBar').style.backgroundColor = "var(--bar_1)";
+            document.getElementById('obdBar').style.backgroundColor = "var(--bar_1)";
+            document.getElementById('settingsBar').style.backgroundColor = "var(--bar_1)";
+            document.getElementById('sidePanel_').style.backgroundColor = "var(--sidePanel_1)";
+            document.getElementById('volumeLevelBox').style.backgroundColor = "var(--volumeSliderBox_1)";
+            document.getElementById('buttonContainer').style.backgroundColor = "var(--buttonContainerColor_1)";
+            document.getElementById('seatLight').style.backgroundColor = "var(--buttonContainerColor_1)";
+        }
+    });
+    
+    
+    //---------------------------------------------------------------------------------------------------------DOMContentLoaded Function
+    document.addEventListener("DOMContentLoaded", function() {
+        //---------------------------------------------------------------------------------------------------------change Background Image
+        var body = document.body;
+        var bgButton = document.getElementById("bgButton");
+        var buttonImg = document.getElementById("buttonImg");
+        var currentImageIndex = 1;
+        var maxImages = 7;
+    
+        bgButton.addEventListener("click", function() {
+            body.style.backgroundImage = "url('static/image_" + currentImageIndex + ".jpg')";
+            currentImageIndex = (currentImageIndex % maxImages) + 1;
+            buttonImg.src = "static/image_" + currentImageIndex + ".jpg";
+            document.getElementById("console").textContent+="change Background ->"+currentImageIndex%maxImages+"\n";
+            document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        });
+    
+        //---------------------------------------------------------------------------------------------------------Event for tip (Musik Anlage) to dissappear
+        var tipContainer = document.getElementById("tip-container");
+        var progressBar = document.getElementById("progress-bar");
+        progressBar.addEventListener("animationend", function() {
+            tipContainer.style.display = "none";
+        });
+    });
+    
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function to clear DTC
+    function clearErrorCodes(){
+        sendData("deleteDTC",{"level": true});
+        var tableBody = document.getElementById("errorBody");
+        tableBody.innerHTML = "";
+        var dtc=document.getElementById('dtc');
+        dtc.textContent="-";
+    }
+    
+    //---------------------------------------------------------------------------------------------------------Function to exit OCS
+    function exit(){
+        document.getElementById('buttonContainer').style.display="none";
+        document.getElementById('ambientLight_ControlPanel').style.display="none";
+        document.getElementById('soundControl_Panel').style.display="none";
+        document.getElementById('settings').style.display="none";
+        document.getElementById('turnOffSwitch').style.display="none";
+        document.getElementById('startLabel').style.display="none";
+        document.getElementById('console').style.display="none";
+        document.getElementById('sidePanel').style.display="none";
+        document.getElementById('volumeLevelBox').style.display="none";
+        document.body.style.backgroundColor = "#00455c";
+        document.body.style.backgroundImage = "none";
+        document.getElementById('brightnessLevel').style.display="none";
+        document.body.style.filter = "brightness(" + 100 + "%)";
+    
+        document.getElementById('exitPanel').style.display="block";
+        countdown();
+    }
+    
+    //---------------------------------------------------------------------------------------------------------Function Countdown shows 5 seconds countdown
+    function countdown(){
+        var countdownElement = document.getElementById("countdown");
+        var count = 5;
+        var countdownInterval = setInterval(function(){
+            countdownElement.textContent = "Shutdown in "+count+"...";
+            count--;
+            if(count < 0){
+                clearInterval(countdownInterval);
+                countdownElement.textContent = "";
+            }
+        }, 1000);
+        console.log("ende");
+    }
+    
+    //---------------------------------------------------------------------------------------------------------Function backToStart shows the main Screen
+    function backToStart(){
+        document.getElementById('ambientLight_ControlPanel').style.display="none";
+        document.getElementById('soundControl_Panel').style.display="none";
+        document.getElementById('obd_Panel').style.display="none";
+        document.getElementById('settings').style.display="none";
+        showOBDData=false;
+        document.getElementById('startLabel').style.display="block";
+        document.getElementById('buttonContainer').style.display="flex";
+    
+        document.getElementById('obdVisualisation').style.display="none";
+        document.getElementById('obdErrorPage').style.display="none";
+        document.getElementById('additiveComponents').style.display="none";
+        stopliveIndicator();
+    }
+    
+    //---------------------------------------------------------------------------------------------------------Function hideStartButton hides main-Site Buttons
+    function hideStartButton(){
+        document.getElementById('buttonContainer').style.display = "none";
+        document.getElementById('startLabel').style.display="none";
+    }
+    
+    //---------------------------------------------------------------------------------------------------------Function Block to animate shutdown Slider back to 0
+    function animateSlider(startValue, endValue) {
+        var delta = startValue - endValue;
+        var step = 1;
+        var interval = setInterval(function() {
+            if (startValue > endValue) {
+                startValue -= step;
+                document.getElementById("turnOffSwitch").value = startValue;
+            } else {
+                clearInterval(interval);
+            }
+        }, 3);
+    }
+      
+    function resetSliderValue() {
+        var currentValue = parseInt(document.getElementById("turnOffSwitch").value);
+        if (currentValue >= 100) {
+            document.getElementById("console").textContent = 'Versuch: Ausschalten\n';
+            sendData("statusTurnOff", {"level": true});
+            document.getElementById("turnOffSwitch").classList.add('turnOffSwitch2');
+            exit();
+        } else {
+            document.getElementById("turnOffSwitch").classList.add('turnOffSlider');
+            document.getElementById("turnOffSwitch").classList.remove('turnOffSwitch2');
+        }
+        animateSlider(currentValue, 0);
+    }
+      
+    document.getElementById("turnOffSwitch").addEventListener('touchend', function() {
+        resetSliderValue();
+        });
+    document.getElementById("turnOffSwitch").addEventListener('mouseup', function(){
+        resetSliderValue();
+    });
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function to start LightControl Panel
+    function lightControlFunction() {
+        hideStartButton();
+        document.getElementById('ambientLight_ControlPanel').style.display="block";
+    }
+    var colorArray = [0,0,0,0];
+    
+    function getColor() {
+        var color = document.getElementById("color-picker-input").value;
+        var selectedImages = document.querySelectorAll(".toggleContainer input[type='checkbox']:checked + img");
+        selectedImages.forEach(function(image) {
+            var imageId = image.alt.split(" ")[1];
+            var index = parseInt(imageId) - 1;
+            colorArray[index] = color;
+        });
+    
+        document.querySelectorAll(".toggleContainer input[type='checkbox']:not(:checked) + img").forEach(function(image) {
+            var imageId = image.alt.split(" ")[1];
+            var index = parseInt(imageId) - 1;
+            if (!colorArray[index]) {
+                colorArray[index] = "000000";
+            }
+        });
+        document.getElementById("console").textContent+="Color Array: "+colorArray+"\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        sendData("ambientLight", {"level": colorArray});
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function to start SoundControl Panel
+    function soundControlFunction() {
+        hideStartButton();
+        document.getElementById('soundControl_Panel').style.display="block";
+    
+        var tipContainer = document.getElementById('tip-container');
+        tipContainer.style.display = "block";
+    
+        setTimeout(function() {
+            tipContainer.style.display = "none";
+        }, 3000);
+    
+        document.getElementById("console").textContent += "start Spotify -> always on top\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function to start obd Panel 
+    var liveInterval;
+    function obdFunction(){
+        hideStartButton();
+        showOBDData=true;
+        fetchDataAndDisplay();
+        
+        document.getElementById('obd_Panel').style.display="block";
+        document.getElementById('additiveComponents').style.display="block";
+        document.getElementById('obdInfo').style.display="block";
+        document.getElementById('obdVisualisation').style.display="none";
+        document.getElementById('obdErrorPage').style.display="none";
+    
+        startLiveIndicator();
+    }
+    //---------------------------------------------------------------------------------------------------------Function Block to blink live data image
+    var isLive = true;
+    function startLiveIndicator(){
+        liveInterval = setInterval(liveIndicator, 750);
+    }
+    function liveIndicator(){
+        var img = document.getElementById("live");
+        img.src = isLive ? 'static/live_.png' : 'static/live.png';
+        isLive = !isLive;
+    }
+    function stopliveIndicator(){
+        clearInterval(liveInterval);
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function Block to update obd Data
+    
+    function setRpm(value){
+        document.getElementById("rpm").innerText=value+" U/min";
+        var foreground = document.getElementById('rpmLevel');
+        var height = 100 - (value / 7000) * 100;
+        foreground.style.height = `${height}%`;
+    }
+    
+    function setSpeed(value){
+        document.getElementById("speed").innerText=value+" km/h";
+        var rotationDegree = (value / 200) * (93.2 - (-93)) + (-93);
+        document.getElementById('zeiger').style.transform = 'rotate(' + rotationDegree + 'deg)';
+    }
+    
+    function setCoolAnt(value){
+        document.getElementById("coolant_temp").innerText = value + " °C";
+        const liquid = document.getElementById('liquid');
+        const temp   = document.getElementById('digitalTemp');
+        temp.textContent=value+'°C';
+        const minHeight = 11;
+        const maxHeight = 78;
+        const heightRange = maxHeight - minHeight;
+        const height = (heightRange * value) / 130 + minHeight;
+        liquid.style.height = height + '%';
+        if(value>96){
+            liquid.style.backgroundColor="#b92d2d";
+        }
+        else if(value>85){
+            liquid.style.backgroundColor="#356752";
+        }
+        else{
+            liquid.style.backgroundColor="#353567";
+        }
+    }
+    
+    function setEngineLoad(value){
+        document.getElementById("engine_load").innerText=value+" %";
+    }
+    
+    function setMaf(value){
+        document.getElementById("maf").innerText=value+" g/s";
+    }
+    
+    function setRuntime(value){
+        document.getElementById("runtime").innerText=value+" Min";
+    }
+    
+    function setError(value){
+        if(value === "error" || !Array.isArray(value)){
+            return;
+        }
+        var dtc=document.getElementById('dtc');
+        const errorBody = document.getElementById('errorBody');
+    
+        value.forEach(code => {
+        const existingRow = Array.from(errorBody.children).find(row => row.textContent.trim() === code);
+    
+        if (!existingRow) {
+            const newRow = document.createElement('tr');
+            const newCell = document.createElement('td');
+            newCell.textContent = code;
+            dtc.textContent+=code+" ";
+            newRow.appendChild(newCell);
+            errorBody.appendChild(newRow);
+        }
+        });
+    }
+    
+    function setStatus(value){
+        document.getElementById("fuel_status").innerText=value;
+    }
+    
+    function setLoadAbs(value){
+        document.getElementById("load_abs").innerText=value+" %";
+    }
+    
+    function setFuelPressure(value){
+        document.getElementById("fuel_pressure").innerText=value+" kPa";
+    }
+    
+    function setFuelRate(value){
+        document.getElementById("fuel_rate").innerText=value+" l/h";
+    }
+    
+    function setVin(value){
+        document.getElementById("vin").innerText=value;
+    }
+    
+    function setInformation(value){
+        document.getElementById("current_data").innerText=value;
+    }
+    
+    function setVoltage(value){
+        var voltageValue = document.getElementById('battery_voltage');
+        var barU12 = document.getElementById('voltageU12');
+        var barG12 = document.getElementById('voltageG12');
+    
+        if(value > 12){
+            barU12.style.width = "0.5%";
+            var widthPercentage = (value - 12) * 15;
+            barG12.style.width = widthPercentage + "%";
+        } else if(value < 12){
+            barG12.style.width = "0.5%";
+            var widthPercentage = (value - 12) * -15;
+            barU12.style.width = widthPercentage + "%";
+        } else {
+            barU12.style.width = "0.5%";
+            barG12.style.width = "0.5%";
+        }
+        voltageValue.innerText=value+"V";
+        voltage.innerText=value+"V";
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function Block to switch between the obd sites
+    function obd_2Page(){
+        document.getElementById('obdInfo').style.display="none";
+        document.getElementById('obdVisualisation').style.display="block";
+    }
+    
+    
+    function obd_3Page(){
+        document.getElementById('obdVisualisation').style.display="none";
+        document.getElementById('obdErrorPage').style.display="block";
+    }
+    
+    
+    function obd_1Page(){
+        document.getElementById('obdErrorPage').style.display="none";
+        document.getElementById('obdInfo').style.display="block";
+    }
+    
+    //---------------------------------------------------------------------------------------------------------Function to go on settings Page
+    function settingsFunction(){
+        hideStartButton();
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        document.getElementById("settings").style.display="block";
+    }
+    
+    
+    //---------------------------------------------------------------------------------------------------------check whitch Buttons are pressed to for Color Change
+    var button1Clicked = false;
+    var button2Clicked = false;
+    var button3Clicked = false;
+    var button4Clicked = false;
+
+    function toggleShadow(buttonId) {
+        var checkbox = document.getElementById(buttonId);
+        var img = checkbox.nextElementSibling.querySelector('img');
+    
+        switch (buttonId) {
+            case 'colorBtn1':
+                button1Clicked = !button1Clicked;
+                break;
+            case 'colorBtn2':
+                button2Clicked = !button2Clicked;
+                break;
+            case 'colorBtn3':
+                button3Clicked = !button3Clicked;
+                break;
+            case 'colorBtn4':
+                button4Clicked = !button4Clicked;
+                break;
+            default:
+                break;
+        }
+
+        if (checkbox.checked) {
+            img.style.opacity = 1;
+            img.style.boxShadow = '9px 9px 17px -1px white';
+        } else {
+            img.style.opacity = '';
+            img.style.boxShadow = '';
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------------------Function to change specific colors for profile 2 
+    function setColor() {
+        var selectedColor = document.getElementById("colorSettings").value;
+        var change=false;
+        if(button1Clicked){
+            document.documentElement.style.setProperty("--bar_2", selectedColor);
+            change=true;
+        }
+        if(button2Clicked){
+            document.documentElement.style.setProperty("--sidePanel_2", selectedColor);
+            change=true;
+        }
+        if(button3Clicked){
+            document.documentElement.style.setProperty("--buttonContainerColor_2", selectedColor);
+            change=true;
+        }
+        if(button4Clicked){
+            document.documentElement.style.setProperty("--volumeSliderBox_2", selectedColor);
+            change=true;
+        }
+        if(change){
+            document.getElementById("console").textContent+="set Colors to Profile 2\n";
+            document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        }
+    }
+
+
+
+
+
+    //---------------------------------------------------------------------------------------------------------Function to get obd Data from python script
+    function fetchDataAndDisplay() {
+        fetch('/get_obd_data', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Empfangene OBD-Daten:", data);
+            setRpm(data.rpm);
+            setSpeed(data.speed);
+            setCoolAnt(data.coolant_temp);
+            setEngineLoad(data.engine_load);
+            setMaf(data.maf);
+            setRuntime(data.runtime);
+            setError(data.dtc);
+            setStatus(data.fuel_status);
+            setLoadAbs(data.load_abs);
+            setFuelPressure(data.fuel_pressure);
+            setFuelRate(data.fuel_rate);
+            setVin(data.vin);
+            setInformation(data.current_data);
+            setVoltage(data.battery_voltage);
+        })
+        .catch(error => console.error('Error fetching OBD data:', error));
+        if(showOBDData){
+            setTimeout(fetchDataAndDisplay, 500);
+        }
+    }
+    window.onload = fetchDataAndDisplay;
+    
+    
+    //---------------------------------------------------------------------------------------------------------Function to send Data to python Script
+    function sendData(action, data) {
+        document.getElementById("console").textContent+="send:\n"+action + ", " + data+"\n------------------------\n";
+        const formData = new FormData();
+        formData.append('action', action);
+        formData.append('data', JSON.stringify(data));
+    
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        });
+    }
+    
+    
+
+
+
+
+
+
+
+
+    function generateRandomPoint() {
+            return Math.random() * 100;
+        }
+
+        var ctx = document.getElementById('MotorlastGraph').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Motorlast',
+                    data: [],
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: 'black'
+                        },
+                        gridLines: {
+                            color: 'rgba(0, 0, 0, 1)'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'white'
+                        },
+                        gridLines: {
+                            color: 'rgba(255, 255, 255, 1)'
+                        }
+                    }]
+                }
+            }
+        });
+
+        function addData(chart, newData) {
+            var data = chart.data.datasets[0].data;
+            var labels = chart.data.labels;
+
+            if (data.length >= 20) {
+                data.shift();
+                labels.shift();
+            }
+
+            data.push(newData);
+            labels.push('');
+
+            chart.update();
+        }
+
+        setInterval(function() {
+            var newData = generateRandomPoint();
+            addData(myChart, newData);
+        }, 500);
+
+
+
+
+
+
+
+
+
+
+
+    
+    </script>
+    
+</html>
