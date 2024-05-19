@@ -48,15 +48,15 @@ body{
 /*---------------------------------------------------------------------------------------------------------Style for start Panel Buttons*/
 .buttonContainer button {
     border: none;
-    padding: 80px 80px;
+    padding: 95px 95px;
     border-radius: 56px;
     cursor: pointer;
-    -webkit-box-shadow: 9px 9px 17px -1px black; 
+    -webkit-box-shadow: 9px 9px 17px -1px black;
     box-shadow: 9px 9px 17px -1px black;
     margin-top: 50px;
-    background-color: rgba(var(--buttonContainerColor_1), var(--buttonContainerOpacity));
+    background-color: rgba(#151515, 0.74);
     background-color: white;
-
+    margin: 12px;
 }
 
 .buttonContainer button:hover {
@@ -104,15 +104,16 @@ body{
 /*---------------------------------------------------------------------------------------------------------Style for volume Slider*/
 .sliderVolumeLevel {
     appearance: none;
-    transform-origin: 0 0;
-    width: 89%;
+    transform-origin: bottom center;
+    width: 90vh;
     height: 7px;
     position: absolute;
-    bottom: 54%;
-    right: 35px;
+    bottom: 50%;
+    right: -210px;
     background: var(--volumeSliderTrack);
     border-radius: 10px;
     z-index: 2;
+    rotate: -90deg;
 }
 
 .sliderVolumeLevel::-webkit-slider-thumb {
@@ -129,25 +130,24 @@ body{
 }
 .volumeLevelBox {
     background-color: var(--volumeSliderBox_1);
-    height: 12%;
-    width: 65%;
+    height: 95vh;
+    width: 12%;
     position: absolute;
-    right: 4%;
-    bottom: 4px;
+    right: 1%;
+    bottom: 12px;
     border-radius: 4px;
 }
 .slider-labels {
     position: absolute;
-    top: 53px;
-    left: 5%;
+    top: 44px;
+    left: 61%;
     height: 100%;
-    width: 92%;
     display: flex;
     z-index: 1;
     color: var(--text);
     font-size: 15px;
     font-family: 'Courier New', Courier, monospace;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
 /*---------------------------------------------------------------------------------------------------------Style for profile change Button*/
@@ -453,19 +453,12 @@ body{
     <div class="volumeLevelBox" id="volumeLevelBox" style="z-index: 90;">
         <input type="range" min="0" max="100" value="10" step="1" class="sliderVolumeLevel" id="myRange" oninput="volumeChange(this.value)">
         <div class="slider-labels">
-            <span></span>
-            <span> -∞ dB</span>
-            <span> -39 dB</span>
-            <span> -34 dB</span>
-            <span> -30 dB</span>
-            <span> -26 dB</span>
-            <span> -21 dB</span>        
-            <span> -17 dB</span>
-            <span> -13 dB</span>
-            <span> -8 dB</span>
-            <span> -4 dB</span>
-            <span> 0 dB</span>
-            <span></span>
+            <span style="padding-bottom: 99px;">- 100</span>
+            <span style="padding-bottom: 96px;">- 75</span>
+            <span style="padding-bottom: 99px;">- 50</span>
+            <span style="padding-bottom: 97px;">- 25</span>
+            <span style="padding-bottom: 94px;">- 0</span>
+
         </div>
     </div>
 
@@ -474,7 +467,7 @@ body{
 
 
 
-    <div class="buttonContainer" id="buttonContainer" style="position: fixed; bottom: 30%; left: 19%; width: 65%; height: 45%; background-color: var(--buttonContainerColor_1); opacity: 80%; z-index: 9999; display: flex; align-items: center; padding-top: 1px; justify-content: space-around; border-radius: 25px;">
+    <div class="buttonContainer" id="buttonContainer" style="position: fixed; bottom: 30%; left: 19%; width: 65%; height: 45%; background-color: var(--buttonContainerColor_1); opacity: 80%; z-index: 9999; display: flex; align-items: center; padding-top: 1px; justify-content: space-around; border-radius: 25px; overflow: scroll;">
         <button class="btn1" onclick="lightControlFunction()" id="btn1">   </button>
         <button class="btn2" onclick="soundControlFunction()" id="btn2">   </button>
         <button class="btn3" onclick="obdFunction()" id="btn3">   </button> 
@@ -809,6 +802,7 @@ body{
         document.getElementById("console").textContent+='Lautstärke: '+ value+"%\n";
         document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
         sendData("volume", {"level": value});
+        console.log("Volume: ", value);
     }
     
     
