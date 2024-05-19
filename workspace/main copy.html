@@ -456,7 +456,7 @@ body{
             <div id="date"></div>
 
             <img id="wlanFunction" src="static/wlan.png" alt="wifi" onclick="wlanConnection()">
-            <img id="btFunction" src="static/bluetooth.png" alt="bluetooth" onclick="btConnection()">
+            <img id="btFunction" src="static/bluetooth.png" alt="bluetooth">
 
 
             <button id="toggleButton" class="toggleButton">
@@ -499,6 +499,9 @@ body{
     </div>
 
 
+    <div id="listBtDevice" style="display: none; background-color: #d8d8d8; border-radius: 5px; overflow: scroll; height: 99px; width: 167px; position: absolute; top: 194px; left: 10px; font-family: 'Courier New', Courier, monospace; font-size: 13px;">
+        search for Bluetooth connection...
+    </div>
 
 
 
@@ -796,6 +799,16 @@ body{
 
 
 <script>
+
+
+    //---------------------------------------------------------------------------------------------------------hide Panels when they arent in use
+    document.addEventListener('click', function(event) {
+        console.log("click auf bildschirm");
+            if (document.getElementById('listBtDevice').style.display === 'block') {
+                document.getElementById('listBtDevice').style.display = 'none';
+            }
+        });
+
     //---------------------------------------------------------------------------------------------------------globale Variablen
     var showOBDData     =   false;
     
@@ -826,11 +839,39 @@ body{
         document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
     }
     
-    //---------------------------------------------------------------------------------------------------------function to connect to wifi
+    //---------------------------------------------------------------------------------------------------------function to connect to bt
+    
+    
+    document.getElementById('btFunction').addEventListener('click', function(event) {
+        btConnection();
+        event.stopPropagation();
+    });
+    
+    
     function btConnection(){
         sendData("setBt", {"level": true});
+        document.getElementById("listBtDevice").style.display="block";
+        console.log("bluetooth panel soll angezeigt werden.");
         document.getElementById("console").textContent+="scan for Bt\n";
         document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        getBtDevices();
+
+    }
+
+    function getBtDevices() {
+        fetch('/get_bt_devices', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Empfangene Bluetooth-Devices:", data);
+            listDevices(data);
+        })
+        .catch(error => console.error('Error fetching bluetooth devices:', error));
+    }
+
+    function listDevices(data){
+
     }
 
     //---------------------------------------------------------------------------------------------------------volume change
