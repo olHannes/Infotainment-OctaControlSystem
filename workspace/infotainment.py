@@ -99,6 +99,8 @@ def handle_ajax_request():
 
     elif action == 'deleteDTC':
         deleteDTC()
+    elif action == 'startMaps':
+        pass
 
     return f"Aktion '{action}' erfolgreich ausgeführt!"
 

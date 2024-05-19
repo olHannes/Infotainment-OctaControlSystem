@@ -80,6 +80,11 @@ body{
     background-size: cover; 
     background-position: center;
 }
+.btn5 {
+    background-image: url("static\\card.png"); 
+    background-size: cover; 
+    background-position: center;
+}
 
 /*---------------------------------------------------------------------------------------------------------Style for Clock and Date*/
 #clock, #date {
@@ -472,6 +477,7 @@ body{
         <button class="btn2" onclick="soundControlFunction()" id="btn2">   </button>
         <button class="btn3" onclick="obdFunction()" id="btn3">   </button> 
         <button class="btn4" onclick="settingsFunction()" id="btn4">   </button>
+        <button class="btn5" onclick="cardFunction()" id="btn5">   </button>
     </div>
     <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="startLabel">
         <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Octavia Control System</div>
@@ -1194,6 +1200,14 @@ body{
         hideStartButton();
         document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
         document.getElementById("settings").style.display="block";
+    }
+
+
+    //---------------------------------------------------------------------------------------------------------Function to go on maps Page
+    function cardFunction(){
+        document.getElementById("console").textContent += "start Maps\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        sendData("startMaps", {"level": true});
     }
     
     
