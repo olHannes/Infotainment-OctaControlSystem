@@ -96,14 +96,25 @@ body{
 
 /*---------------------------------------------------------------------------------------------------------Style for "back to Start" Button*/
 .start{
-    position: fixed; 
-    top: 180px; 
-    left: 50px; 
-    background-image: url("static\\start.png"); 
-    background-size: cover; 
+    position: fixed;
+    top: 217px;
+    left: 34px;
+    background-image: url("static/start.png");
+    background-size: cover;
     background-position: center;
     height: 95px;
     width: 95px;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for "Bluetooth" Button*/
+#btFunction{
+    height: 35px;
+}
+
+/*---------------------------------------------------------------------------------------------------------Style for "Wifi" Button*/
+#wlanFunction{
+    height: 35px;
+    padding-left: 14px;
 }
 
 /*---------------------------------------------------------------------------------------------------------Style for volume Slider*/
@@ -443,6 +454,10 @@ body{
         <div style="background-color: var(--sidePanel_1); opacity: 90%; color: var(--text); padding: 20px; width: 150px; -webkit-box-shadow: 9px 9px 17px -1px var(--shadow); box-shadow: 9px 9px 17px -1px var(--shadow); font-family: 'Courier New', Courier, monospace;" id="sidePanel_">
             <div id="clock"></div>
             <div id="date"></div>
+
+            <img id="wlanFunction" src="static/wlan.png" alt="wifi" onclick="wlanConnection()">
+            <img id="btFunction" src="static/bluetooth.png" alt="bluetooth" onclick="btConnection()">
+
 
             <button id="toggleButton" class="toggleButton">
                 <img id="buttonImage" src="static\Profil1.png" alt="Profilbild">
@@ -803,6 +818,21 @@ body{
         setInterval(updateTime, 1000);
     
     
+
+    //---------------------------------------------------------------------------------------------------------function to connect to wifi
+    function wlanConnection(){
+        sendData("getWifi", {"level": true});
+        document.getElementById("console").textContent+="getWifi...\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+    }
+    
+    //---------------------------------------------------------------------------------------------------------function to connect to wifi
+    function btConnection(){
+        sendData("setBt", {"level": true});
+        document.getElementById("console").textContent+="scan for Bt\n";
+        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+    }
+
     //---------------------------------------------------------------------------------------------------------volume change
     function volumeChange(value){
         document.getElementById("console").textContent+='Lautstärke: '+ value+"%\n";
