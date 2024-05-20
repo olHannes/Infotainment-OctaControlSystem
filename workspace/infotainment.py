@@ -46,6 +46,13 @@ def default():
 
 
 
+@app.route('/get_wifi_network', methods=['GET'])
+def get_wifi_network():
+    start_wifi_scan()
+    reachable_wifi = scan_wifi_networks()
+    wifi_data = {f'wifi_{i+1}': name for i, name in enumerate(reachable_wifi)}
+    return jsonify(wifi_data)
+
 
 
 

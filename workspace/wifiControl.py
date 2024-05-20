@@ -1,4 +1,5 @@
 import subprocess
+import json
 
 def start_wifi_scan():
     try:
@@ -25,4 +26,5 @@ def connect_to_network(network, password):
         print(f"Connected to Wi-Fi network: {network}")
     except subprocess.CalledProcessError as e:
         print("Error:", e)
+
 
