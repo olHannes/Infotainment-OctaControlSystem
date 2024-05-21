@@ -505,6 +505,15 @@ body{
 
     <div id="listWifiNetwork" style="display: none; background-color: #d8d8d8; border-radius: 5px; overflow: scroll; height: 99px; width: 167px; position: absolute; top: 194px; left: 10px; font-family: 'Courier New', Courier, monospace; font-size: 13px; z-index: 500;">
         search for Wifi networks...
+        <h2 onclick="showWifiDetails('hybrionet')">hybrionet</h2>
+        <h2 onclick="showWifiDetails('Wlan-01234')">Wlan-01234</h2>
+        <h2 onclick="showWifiDetails('Hotspot test')">Hotspot test</h2>
+
+    </div>
+
+    <div id="wifiDetailsPanel" style="display: none; background-color: white; border-radius: 10px; padding: 20px; position: absolute; top: 100px; left: 234px; width: 555px; height: 300px; z-index: 10000;">
+        <input type="text" id="wifiPassword" placeholder="Passwort eingeben" style="width: 459px;">
+        <button onclick="connectWifi()" style="color: white; background-color: #093b00;">connect</button>
     </div>
 
 
@@ -807,12 +816,14 @@ body{
 
     //---------------------------------------------------------------------------------------------------------hide Panels when they arent in use
     document.addEventListener('click', function(event) {
-        console.log("click auf bildschirm");
             if (document.getElementById('listBtDevice').style.display === 'block') {
                 document.getElementById('listBtDevice').style.display = 'none';
             }
             if (document.getElementById('listWifiNetwork').style.display === 'block'){
                 document.getElementById('listWifiNetwork').style.display = 'none';
+            }
+            if(document.getElementById('wifiDetailsPanel').style.display === 'block'){
+                document.getElementById('wifiDetailsPanel').style.display="none";
             }
         });
 
@@ -841,6 +852,7 @@ body{
 
     //---------------------------------------------------------------------------------------------------------function to connect to wifi
     
+    var currentSelectedNetwork = '';
     document.getElementById('wlanFunction').addEventListener('click', function(event) {
         wlanConnection();
         event.stopPropagation();
@@ -868,18 +880,42 @@ body{
         .catch(error => console.error('Error fetching networks:', error));
     }
 
-    function listNetworks(data){
+    function listNetworks(data) {
         let listWifiNetwork = document.getElementById("listWifiNetwork");
-        listWifiNetwork.innerHTML = "";
+        listWifiNetwork.innerHTML = "search for Wifi networks...";
 
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
-                let listItem = document.createElement("li");
+                let listItem = document.createElement("h2");
                 listItem.textContent = data[key];
+                listItem.setAttribute("onclick", "showWifiDetails('" + data[key] + "')");
                 listWifiNetwork.appendChild(listItem);
             }
         }
     }
+
+
+
+
+
+
+    function showWifiDetails(selectedNetwork){
+        document.getElementById('wifiDetailsPanel').style.display="block";
+        document.getElementById('wifiPassword').placeholder='password for network: '+ selectedNetwork;
+        currentSelectedNetwork = selectedNetwork;
+        document.getElementById('wifiPassword').focus();
+        sendData("setTastatur", {"level": true});
+        event.stopPropagation();
+    }
+
+    function connectWifi(){
+        document.getElementById('wifiDetailsPanel').style.display="none";
+        var password=document.getElementById('wifiPassword').value;
+        var wifiData = currentSelectedNetwork + '_' + password;
+        sendData("setWifi", {"level": wifiData});
+    }
+
+
     //---------------------------------------------------------------------------------------------------------function to connect to bt
     
     
