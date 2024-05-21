@@ -25,11 +25,6 @@ controller=None
 
 
 
-def setMusicProgram():
-    #webbrowser.open('https://open.spotify.com/')
-    print("start Music program")
-
-
 
 
 	
