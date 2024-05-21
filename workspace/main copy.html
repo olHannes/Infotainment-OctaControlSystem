@@ -949,7 +949,16 @@ body{
     }
 
     function listDevices(data){
+        let listBtDevices = document.getElementById("listBtDevice");
+        listBtDevices.innerHTML = "search for bluetooth Devices...";
 
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                let listItem = document.createElement("h2");
+                listItem.textContent = data[key];
+                listBtDevices.appendChild(listItem);
+            }
+        }
     }
 
     //---------------------------------------------------------------------------------------------------------volume change
