@@ -575,6 +575,16 @@ body{
         <p style="margin: 0; font-size: 15px;">Info: schalte zuert die Anlage ein und warte auf eine Verbindung.</p>
         <div id="progress-bar"></div>
     </div>
+
+
+    <div style="position: absolute; top: 23%; left: 22%; width: 615px; display: flex; align-items: center; justify-content: space-around;">
+        <img src="static/bluetooth_.png" alt="bluetooth connection" style="width: 117px; padding: 4px; background-color: #000000; border-radius: 14px;" onclick="openBTSite()">
+        <img src="static/spotify.png" alt="spotify webapp" style="width: 125px; border-radius: 14px;" onclick="openSpotifySite()">
+        <img src="static/deezer.png" alt="deezer webapp" style="width: 125px; border-radius: 14px;" onclick="openDeezerSite()">
+        <img src="static/radio.png" alt="internet radio webapp" style="width: 117px; padding: 4px; background-color: black; border-radius: 14px;" onclick="openRadioSite()">
+    </div>
+
+
 </div>
 
 
@@ -1039,6 +1049,37 @@ body{
             tipContainer.style.display = "none";
         });
     });
+
+
+
+    function openBTSite(){
+        console.log("openBTSite");
+    }
+    function openDeezerSite(){
+        console.log("openDeezerSite, "+navigator.onLine);
+        if(navigator.onLine){
+            
+        }else{
+
+        }
+
+    }
+    function openSpotifySite(){
+        console.log("openSpotifySite, "+navigator.onLine);
+        if(navigator.onLine){
+
+        }else{
+            
+        }
+    }
+    function openRadioSite(){
+        console.log("openRadioSite, "+navigator.onLine);
+        if(navigator.onLine){
+
+        }else{
+    
+        }
+    }
     
     
     
@@ -1183,7 +1224,7 @@ body{
     
         setTimeout(function() {
             tipContainer.style.display = "none";
-        }, 3000);
+        }, 5000);
     
         document.getElementById("console").textContent += "start Spotify -> always on top\n";
         document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
