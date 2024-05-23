@@ -584,6 +584,12 @@ body{
         <img src="static/radio.png" alt="internet radio webapp" style="width: 117px; padding: 4px; background-color: black; border-radius: 14px;" onclick="openRadioSite()">
     </div>
 
+    <div id="offlineMessage" style="display: none; background-color: #2f0000; position: absolute; top: 2%; left: 51%; transform: translateX(-50%); width: 70%; max-width: 400px; padding: 3px; border-radius: 10px; text-align: center; font-family: Arial, sans-serif; color: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">
+        <h2 style="font-size: 18px; margin-bottom: 0px;">Error: Some functions require an internet connection.</h2>
+        <p style="font-size: 14px; margin-top: 10px;">Please search for available networks and connect.</p>
+    </div>
+    
+
 
 </div>
 
@@ -1060,7 +1066,8 @@ body{
         if(navigator.onLine){
             
         }else{
-
+            document.getElementById('offlineMessage').style.display="block";
+            setTimeout(hideWifiError, 2500);
         }
 
     }
@@ -1069,7 +1076,8 @@ body{
         if(navigator.onLine){
 
         }else{
-            
+            document.getElementById('offlineMessage').style.display="block";
+            setTimeout(hideWifiError, 2500);
         }
     }
     function openRadioSite(){
@@ -1077,10 +1085,15 @@ body{
         if(navigator.onLine){
 
         }else{
-    
+            document.getElementById('offlineMessage').style.display="block";
+            setTimeout(hideWifiError, 2500);
         }
     }
     
+
+    function hideWifiError(){
+        document.getElementById('offlineMessage').display="none";
+    }
     
     
     //---------------------------------------------------------------------------------------------------------Function to clear DTC
