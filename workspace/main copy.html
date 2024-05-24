@@ -307,8 +307,8 @@ body{
 
 /*---------------------------------------------------------------------------------------------------------Style for settings Panel Components*/
 .toggle-buttons-container {
-    height: 78%;
-    width: 350px;
+    height: 88%;
+    width: 243px;
     position: absolute;
     right: 15%;
     top: 6%;
@@ -339,7 +339,7 @@ body{
     height: 50px;
     width: 120px;
     position: absolute;
-    right: 95%;
+    right: 26%;
     bottom: 8%;
 }
 
@@ -763,22 +763,22 @@ body{
         <div style="display: flex; align-items: center; justify-content: space-around;"> 
             <div class="toggle-button">
                 <input type="checkbox" id="colorBtn2" onclick="toggleShadow('colorBtn2')">
-                <label for="colorBtn2"><img src="static/settings_sideBar.png" alt="Button 2" style="height: 280px;"></label>
+                <label for="colorBtn2"><img src="static/settings_sideBar.png" alt="Button 2" style="height: 180px;"></label>
             </div>
             <div class="toggle-button">
                 <input type="checkbox" id="colorBtn4" onclick="toggleShadow('colorBtn4')">
-                <label for="colorBtn4"><img src="static/settings_volumeBox.png" alt="Button 4" style="height: 280px;"></label>
+                <label for="colorBtn4"><img src="static/settings_volumeBox.png" alt="Button 4" style="height: 180px;"></label>
             </div>
         </div>
 
         <div style="display: flex; align-items: center; flex-direction: column; justify-content: space-around;">
             <div class="toggle-button">
                 <input type="checkbox" id="colorBtn1" onclick="toggleShadow('colorBtn1')">
-                <label for="colorBtn1"><img src="static/settings_bar.png" alt="Button 1" style="height: 90px;"></label>
+                <label for="colorBtn1"><img src="static/settings_bar.png" alt="Button 1" style="height: 50px;"></label>
             </div>
             <div class="toggle-button">
                 <input type="checkbox" id="colorBtn3" onclick="toggleShadow('colorBtn3')">
-                <label for="colorBtn3"><img src="static/settings_btnContainer.png" alt="Button 3" style="height: 120px;"></label>
+                <label for="colorBtn3"><img src="static/settings_btnContainer.png" alt="Button 3" style="height: 90px;"></label>
             </div>
         </div>
 
@@ -786,13 +786,23 @@ body{
     </div>
 
 
-    <div style="position: absolute; top: 10%; right: 45%; box-shadow: 9px 9px 17px -1px black;">
-        <button id="bgButton" style="height: 170px; display: flex;  align-items: center; flex-direction: column; background-color: #313131;">
+    <div style="position: absolute; top: 11%; right: 52%; box-shadow: 9px 9px 17px -1px black;">
+        <button id="bgButton" style="height: 59px; display: flex;  align-items: center; flex-direction: column; background-color: #313131;" onclick="setBackgroundImage()">
             <h1 style="font-family: 'Courier New', Courier, monospace; color: #e4dbdb; font-size: 19px;">Change Background</h1>
-            <img id="buttonImg" src="static/image_2.jpg" alt="Button Image" style="height: 190px; width: auto;">
         </button>
     </div>
 
+    <div id="selectBackgroundImage" style="overflow: auto; position: absolute; background-color: rgb(7, 24, 34); height: 38%; width: 60%; top: 17%; left: 22%; display: flex; align-items: flex-end; justify-content: space-around; padding: 10px; box-shadow: 4px 5px 16px 0px #000000; border-radius: 10px;">
+        <h1 style="position: absolute; top: 0%; color:white; font-family: 'Courier New', Courier, monospace;">select Backgorund Image</h1>
+        <img src="static/image_1.jpg" height="160px" alt="backgorund Img 1" onclick="changeBackground(1)" style="margin-right: 10px;">
+        <img src="static/image_2.jpg" height="160px" alt="backgorund Img 2" onclick="changeBackground(2)" style="margin-right: 10px;">
+        <img src="static/image_3.jpg" height="160px" alt="backgorund Img 3" onclick="changeBackground(3)" style="margin-right: 10px;">
+        <img src="static/image_4.jpg" height="160px" alt="backgorund Img 4" onclick="changeBackground(4)" style="margin-right: 10px;">
+        <img src="static/image_5.jpg" height="160px" alt="backgorund Img 5" onclick="changeBackground(5)" style="margin-right: 10px;">
+        <img src="static/image_6.jpg" height="160px" alt="backgorund Img 6" onclick="changeBackground(6)" style="margin-right: 10px;">
+        <img src="static/image_7.jpg" height="160px" alt="backgorund Img 7" onclick="changeBackground(7)"> 
+    
+    </div>
 
 
 
@@ -841,6 +851,9 @@ body{
             }
             if(document.getElementById('wifiDetailsPanel').style.display === 'block'){
                 document.getElementById('wifiDetailsPanel').style.display="none";
+            }
+            if(document.getElementById('selectBackgroundImage').style.display === 'flex'){
+                document.getElementById('selectBackgroundImage').style.display="none";
             }
         });
 
@@ -1031,23 +1044,22 @@ body{
     });
     
     
+
+    //---------------------------------------------------------------------------------------------------------change Background Image
+    function changeBackground(value) {
+        const imageUrl = `static\\\\image_${value}.jpg`;
+        console.log(imageUrl);
+        document.body.style.backgroundImage = `url('${imageUrl}')`;
+    }
+
+    function setBackgroundImage(){
+        document.getElementById('selectBackgroundImage').style.display="flex";
+        event.stopPropagation();
+    }
+
+
     //---------------------------------------------------------------------------------------------------------DOMContentLoaded Function
     document.addEventListener("DOMContentLoaded", function() {
-        //---------------------------------------------------------------------------------------------------------change Background Image
-        var body = document.body;
-        var bgButton = document.getElementById("bgButton");
-        var buttonImg = document.getElementById("buttonImg");
-        var currentImageIndex = 1;
-        var maxImages = 7;
-    
-        bgButton.addEventListener("click", function() {
-            body.style.backgroundImage = "url('static/image_" + currentImageIndex + ".jpg')";
-            currentImageIndex = (currentImageIndex % maxImages) + 1;
-            buttonImg.src = "static/image_" + currentImageIndex + ".jpg";
-            document.getElementById("console").textContent+="change Background ->"+currentImageIndex%maxImages+"\n";
-            document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
-        });
-    
         //---------------------------------------------------------------------------------------------------------Event for tip (Musik Anlage) to dissappear
         var tipContainer = document.getElementById("tip-container");
         var progressBar = document.getElementById("progress-bar");
