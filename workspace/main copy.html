@@ -840,9 +840,24 @@ body{
 
 <script>
 
+//--------------------------------------------------------------------------------------------------------- function for logging
+function logConsole(message) {
+    // Erstellen eines neuen Date-Objekts für die aktuelle Uhrzeit
+    const now = new Date();
+    const timeString = now.toLocaleTimeString(); // Uhrzeit im lokalen Format
+
+    // Hinzufügen der formatierten Uhrzeit und Nachricht zum console-Element
+    const formattedMessage = `<span style="color: red;">${timeString}</span> ${message}\n`;
+    const consoleElement = document.getElementById("console");
+    consoleElement.innerHTML += formattedMessage;
+
+    // Scrollen zum Ende des console-Elements
+    consoleElement.scrollTop = consoleElement.scrollHeight;
+}
 
     //---------------------------------------------------------------------------------------------------------hide Panels when they arent in use
     document.addEventListener('click', function(event) {
+            logConsole("touch");
             if (document.getElementById('listBtDevice').style.display === 'block') {
                 document.getElementById('listBtDevice').style.display = 'none';
             }
@@ -894,8 +909,7 @@ body{
         document.getElementById("listBtDevice").style.display="none";
         document.getElementById("listWifiNetwork").style.display="block";
         getWifiNetwork();
-        document.getElementById("console").textContent+="getWifi...\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("getWifi");
     }
     
     function getWifiNetwork() {
@@ -943,6 +957,7 @@ body{
         var password=document.getElementById('wifiPassword').value;
         var wifiData = currentSelectedNetwork + '_' + password;
         sendData("setWifi", {"level": wifiData});
+        logConsole("connect To Wifi");
     }
 
 
@@ -960,8 +975,7 @@ body{
         document.getElementById("listWifiNetwork").style.display="none";
         document.getElementById("listBtDevice").style.display="block";
         console.log("bluetooth panel soll angezeigt werden.");
-        document.getElementById("console").textContent+="scan for Bt\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("Scan for Bt devices");
         getBtDevices();
 
     }
@@ -993,25 +1007,22 @@ body{
 
     //---------------------------------------------------------------------------------------------------------volume change
     function volumeChange(value){
-        document.getElementById("console").textContent+='Lautstärke: '+ value+"%\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("Volume: "+value);
         sendData("volume", {"level": value});
-        console.log("Volume: ", value);
     }
     
     
     //---------------------------------------------------------------------------------------------------------website brightness Change
     function brightnessLevelChange(value){
         var wert=value-50;
-        document.getElementById("console").textContent+='Helligkeit: '+ wert+"%\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("brightness Level: "+ wert);
         document.body.style.filter = "brightness(" + value + "%)";
     }
     
     
     //---------------------------------------------------------------------------------------------------------change Color Profile
     document.getElementById('toggleButton').addEventListener('click', function() {
-        console.log("change Profile");
+        logConsole("change Profile");
         var image = document.getElementById('buttonImage');
     
         if (image.src.includes("Profil1")) {
@@ -1047,6 +1058,7 @@ body{
 
     //---------------------------------------------------------------------------------------------------------change Background Image
     function changeBackground(value) {
+        logConsole("change Background");
         const imageUrl = `static\\\\image_${value}.jpg`;
         console.log(imageUrl);
         document.body.style.backgroundImage = `url('${imageUrl}')`;
@@ -1111,6 +1123,7 @@ body{
     //---------------------------------------------------------------------------------------------------------Function to clear DTC
     function clearErrorCodes(){
         sendData("deleteDTC",{"level": true});
+        logConsole("try: deleteDTC");
         var tableBody = document.getElementById("errorBody");
         tableBody.innerHTML = "";
         var dtc=document.getElementById('dtc');
@@ -1132,7 +1145,7 @@ body{
         document.body.style.backgroundImage = "none";
         document.getElementById('brightnessLevel').style.display="none";
         document.body.style.filter = "brightness(" + 100 + "%)";
-    
+        logConsole("exit OCS");
         document.getElementById('exitPanel').style.display="block";
         countdown();
     }
@@ -1191,7 +1204,7 @@ body{
     function resetSliderValue() {
         var currentValue = parseInt(document.getElementById("turnOffSwitch").value);
         if (currentValue >= 100) {
-            document.getElementById("console").textContent = 'Versuch: Ausschalten\n';
+            logConsole("try: shutdown");
             sendData("statusTurnOff", {"level": true});
             document.getElementById("turnOffSwitch").classList.add('turnOffSwitch2');
             exit();
@@ -1233,8 +1246,8 @@ body{
                 colorArray[index] = "000000";
             }
         });
-        document.getElementById("console").textContent+="Color Array: "+colorArray+"\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("set ambient Light:");
+        logConsole(colorArray);
         sendData("ambientLight", {"level": colorArray});
     }
     
@@ -1250,9 +1263,7 @@ body{
         setTimeout(function() {
             tipContainer.style.display = "none";
         }, 5000);
-    
-        document.getElementById("console").textContent += "start Spotify -> always on top\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("open SoundControl");
         
     }
     
@@ -1430,8 +1441,7 @@ body{
 
     //---------------------------------------------------------------------------------------------------------Function to go on maps Page
     function cardFunction(){
-        document.getElementById("console").textContent += "start Maps\n";
-        document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+        logConsole("start navigation");
         sendData("startMaps", {"level": true});
     }
     
@@ -1493,8 +1503,7 @@ body{
             change=true;
         }
         if(change){
-            document.getElementById("console").textContent+="set Colors to Profile 2\n";
-            document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+            logConsole("change color for profile 2");
         }
     }
 
@@ -1535,7 +1544,7 @@ body{
     
     //---------------------------------------------------------------------------------------------------------Function to send Data to python Script
     function sendData(action, data) {
-        document.getElementById("console").textContent+="send:\n"+action + ", " + data+"\n------------------------\n";
+        logConsole("send:\n"+action + ", " + data+"\n------------------------");
         const formData = new FormData();
         formData.append('action', action);
         formData.append('data', JSON.stringify(data));
@@ -1547,78 +1556,6 @@ body{
     }
     
     
-
-
-
-
-
-
-
-
-    function generateRandomPoint() {
-            return Math.random() * 100;
-        }
-
-        var ctx = document.getElementById('MotorlastGraph').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Motorlast',
-                    data: [],
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                    borderColor: 'rgba(255, 255, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            fontColor: 'black'
-                        },
-                        gridLines: {
-                            color: 'rgba(0, 0, 0, 1)'
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: 'white'
-                        },
-                        gridLines: {
-                            color: 'rgba(255, 255, 255, 1)'
-                        }
-                    }]
-                }
-            }
-        });
-
-        function addData(chart, newData) {
-            var data = chart.data.datasets[0].data;
-            var labels = chart.data.labels;
-
-            if (data.length >= 20) {
-                data.shift();
-                labels.shift();
-            }
-
-            data.push(newData);
-            labels.push('');
-
-            chart.update();
-        }
-
-        setInterval(function() {
-            var newData = generateRandomPoint();
-            addData(myChart, newData);
-        }, 500);
-
-
-
-
-
 
 
 
