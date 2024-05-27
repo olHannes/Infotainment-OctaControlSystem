@@ -751,6 +751,8 @@ body{
     </div>
 
     <div class="console" id="console"> </div>
+    <button style="color: white; background-color: black; position: absolute; bottom: 15%; left: 20%; height: 17px; width: 44px; padding: 0;" onclick="clearLogger()">clear</button>
+
     <input type="range" min="0" max="100" value="0" step="1" class="turnOffSwitch" id="turnOffSwitch">
     <div>
         <input type="range" min="50" max="200" value="100" step="1" class="brightnessLevel" id="brightnessLevel" oninput="brightnessLevelChange(this.value)">
@@ -842,17 +844,18 @@ body{
 
 //--------------------------------------------------------------------------------------------------------- function for logging
 function logConsole(message) {
-    // Erstellen eines neuen Date-Objekts für die aktuelle Uhrzeit
     const now = new Date();
-    const timeString = now.toLocaleTimeString(); // Uhrzeit im lokalen Format
+    const timeString = now.toLocaleTimeString();
 
-    // Hinzufügen der formatierten Uhrzeit und Nachricht zum console-Element
     const formattedMessage = `<span style="color: red;">${timeString}</span> ${message}\n`;
     const consoleElement = document.getElementById("console");
     consoleElement.innerHTML += formattedMessage;
 
-    // Scrollen zum Ende des console-Elements
     consoleElement.scrollTop = consoleElement.scrollHeight;
+}
+function clearLogger(){
+    document.getElementById('console').innerHTML="";
+    event.stopPropagation();
 }
 
     //---------------------------------------------------------------------------------------------------------hide Panels when they arent in use
