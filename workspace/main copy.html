@@ -583,11 +583,6 @@ body{
         <img src="static/deezer.png" alt="deezer webapp" style="width: 125px; border-radius: 14px;" onclick="openDeezerSite()">
         <img src="static/radio.png" alt="internet radio webapp" style="width: 117px; padding: 4px; background-color: black; border-radius: 14px;" onclick="openRadioSite()">
     </div>
-
-    <div id="offlineMessage" style="display: none; background-color: #2f0000; position: absolute; top: 2%; left: 51%; transform: translateX(-50%); width: 70%; max-width: 400px; padding: 3px; border-radius: 10px; text-align: center; font-family: Arial, sans-serif; color: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">
-        <h2 style="font-size: 18px; margin-bottom: 0px;">Error: Some functions require an internet connection.</h2>
-        <p style="font-size: 14px; margin-top: 10px;">Please search for available networks and connect.</p>
-    </div>
     
 
 
@@ -595,7 +590,10 @@ body{
 
 
 
-
+<div id="offlineMessage" style="display: none; background-color: #2f0000; position: absolute; top: 2%; left: 51%; transform: translateX(-50%); width: 70%; max-width: 400px; padding: 3px; border-radius: 10px; text-align: center; font-family: Arial, sans-serif; color: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">
+    <h2 style="font-size: 18px; margin-bottom: 0px;">Error: Some functions require an internet connection.</h2>
+    <p style="font-size: 14px; margin-top: 10px;">Please search for available networks and connect.</p>
+</div>
 
 
 
@@ -1088,39 +1086,48 @@ function clearLogger(){
     function openBTSite(){
         console.log("openBTSite");
     }
-    function openDeezerSite(){
-        console.log("openDeezerSite, "+navigator.onLine);
-        if(navigator.onLine){
-            
-        }else{
-            document.getElementById('offlineMessage').style.display="block";
-            setTimeout(hideWifiError, 2500);
-        }
-
-    }
-    function openSpotifySite(){
-        console.log("openSpotifySite, "+navigator.onLine);
-        if(navigator.onLine){
-
-        }else{
-            document.getElementById('offlineMessage').style.display="block";
-            setTimeout(hideWifiError, 2500);
-        }
-    }
-    function openRadioSite(){
-        console.log("openRadioSite, "+navigator.onLine);
-        if(navigator.onLine){
-
-        }else{
-            document.getElementById('offlineMessage').style.display="block";
-            setTimeout(hideWifiError, 2500);
-        }
-    }
-    
-
-    function hideWifiError(){
-        document.getElementById('offlineMessage').display="none";
-    }
+    function openDeezerSite() {
+    checkInternetConnection()
+        .then(connected => {
+            if (connected) {
+                logConsole("start deezer");
+                sendData("startDeezer", {"level": true});
+            } else {
+                showInternetError();
+            }
+        })
+        .catch(error => {
+            showInternetError();
+        });
+}
+    function openSpotifySite() {
+    checkInternetConnection()
+        .then(connected => {
+            if (connected) {
+                logConsole("start spotify");
+                sendData("startSpotify", {"level": true});
+            } else {
+                showInternetError();
+            }
+        })
+        .catch(error => {
+            showInternetError();
+        });
+}
+    function openRadioSite() {
+    checkInternetConnection()
+        .then(connected => {
+            if (connected) {
+                logConsole("start radio");
+                sendData("startRadio", {"level": true});
+            } else {
+                showInternetError();
+            }
+        })
+        .catch(error => {
+            showInternetError();
+        });
+}
     
     
     //---------------------------------------------------------------------------------------------------------Function to clear DTC
@@ -1443,10 +1450,21 @@ function clearLogger(){
 
 
     //---------------------------------------------------------------------------------------------------------Function to go on maps Page
-    function cardFunction(){
-        logConsole("start navigation");
-        sendData("startMaps", {"level": true});
-    }
+    function cardFunction() {
+    checkInternetConnection()
+        .then(connected => {
+            if (connected) {
+                logConsole("start navigation");
+                sendData("startMaps", {"level": true});
+            } else {
+                showInternetError();
+            }
+        })
+        .catch(error => {
+            showInternetError();
+        });
+}
+
     
     
     //---------------------------------------------------------------------------------------------------------check whitch Buttons are pressed to for Color Change
@@ -1559,9 +1577,34 @@ function clearLogger(){
     }
     
     
+//---------------------------------------------------------------------------------------------------------Function to check if pi is connected
+function checkInternetConnection() {
+    return new Promise((resolve, reject) => {
+        fetch('https://jsonplaceholder.typicode.com/posts/1', { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Verbunden mit dem Internet.');
+                    resolve(true);
+                } else {
+                    console.log('Keine Internetverbindung.');
+                    resolve(false);
+                }
+            })
+            .catch(() => {
+                console.log('Fehler beim Prüfen der Internetverbindung.');
+                resolve(false);
+            });
+    });
+}
 
-
-
+function showInternetError(){
+    document.getElementById('offlineMessage').style.display="block";
+    setTimeout(hideWifiError, 2500);
+}
+    
+function hideWifiError(){
+    document.getElementById('offlineMessage').style.display="none";
+}
 
 
 
