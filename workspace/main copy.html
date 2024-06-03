@@ -591,8 +591,26 @@ body{
     
 
 
-    <div id="bluetoothPanel" style="display: block; position: absolute; top: 10%; left: 22%; height: 50%; width: 61%; background-color: white; border-radius: 10px;">
-        <h2 style="font-family: 'Courier New', Courier, monospace; font-size: 15px; color: black; background-color: white; padding-left: 5px; width: 50px;" onclick="hideBTPanel()">back</h2>
+    <div id="bluetoothPanel" style="display: block; position: absolute; top: 10%; left: 22%; height: 50%; width: 61%; background-color: rgb(0, 0, 0); border-radius: 10px;">
+        <h2 style="font-family: 'Courier New', Courier, monospace; font-size: 15px; color: rgb(165, 162, 162); background-color: rgb(39, 38, 38); padding-left: 5px; width: 50px;" onclick="hideBTPanel()">back</h2>
+        <div style="font-family: 'Courier New', Courier, monospace; background-color: #000000; color: white; margin-left: 5px;">
+            <h2>Song Titel:</h2>
+            <h4>Playlist:</h4>
+            <h4>Artist:</h4>
+            <h4>Duration:</h4>
+            <div style="position: absolute; top: 40px; right: 30%">
+                <h2 id="titel" style="margin: 0; margin-top: 16px;">example Data</h2>
+                <h3 id="playlist" style="margin: 0; margin-top: 16px;">example Data</h3>
+                <h3 id="artist" style="margin: 0; margin-top: 16px;">example Data</h3>
+                <h3 id="duration" style="margin: 0; margin-top: 16px;">example Data</h3>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-around; position: absolute; left: 26%; bottom: 15px; width: auto; background-color: black; border-radius: 12px;"> 
+            <img src="static/zurueck.png" alt="back" style="height: 80px;" onclick="prev()">
+            <img src="static/play.png" alt="back" style="height: 80px;" onclick="play()">
+            <img src="static/pause.png" alt="back" style="height: 80px;" onclick="pause()">
+            <img src="static/vor.png" alt="back" style="height: 80px;" onclick="skip()">
+        </div>
     </div>
 
 
@@ -1124,6 +1142,22 @@ function clearLogger(){
     function hideBTPanel(){
         document.getElementById('bluetoothPanel').style.display="none";
     }
+    function play(){
+        sendData("play", {"level": true});
+    }
+    function pause(){
+        sendData("pause", {"level": true});
+    }
+    function skip(){
+        sendData("skip", {"level": true});
+    }
+    function prev(){
+        sendData("prev", {"level": true});
+    }
+
+
+
+
     function openDeezerSite() {
     checkInternetConnection()
         .then(connected => {
