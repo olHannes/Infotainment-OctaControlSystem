@@ -117,6 +117,14 @@ body{
     padding-left: 14px;
 }
 
+/*---------------------------------------------------------------------------------------------------------Style for "mute" Button*/
+#muteFunction{
+    height: 35px;
+}
+#loudFunction{
+    height: 35px;
+}
+
 /*---------------------------------------------------------------------------------------------------------Style for volume Slider*/
 .sliderVolumeLevel {
     appearance: none;
@@ -458,7 +466,8 @@ body{
 
             <img id="wlanFunction" src="static/wlan.png" alt="wifi">
             <img id="btFunction" src="static/bluetooth.png" alt="bluetooth">
-
+            <img id="muteFunction" src="static/mute.png" alt="loud" >
+            <img id="loudFunction" src="static/loud.png" alt="mute" style="display: none;">
 
             <button id="toggleButton" class="toggleButton">
                 <img id="buttonImage" src="static\Profil1.png" alt="Profilbild">
@@ -482,7 +491,6 @@ body{
 
         </div>
     </div>
-
     
 
 
@@ -1004,10 +1012,35 @@ function clearLogger(){
     }
 
     //---------------------------------------------------------------------------------------------------------volume change
+    
+    var mute=false;
+
     function volumeChange(value){
+        if(value == 0){
+            document.getElementById('loudFunction').style.display="flex";
+            document.getElementById('muteFunction').style.display="none";
+        }else{
+            document.getElementById('loudFunction').style.display="none";
+            document.getElementById('muteFunction').style.display="flex";
+        }
+
+        if(mute == false){
+            
+        }
         logConsole("Volume: "+value);
         sendData("volume", {"level": value});
     }
+
+
+    document.getElementById('muteFunction').addEventListener('click', function(event) {
+        volumeChange(0);
+        document.getElementById('myRange').value=0;
+    });
+
+    document.getElementById('loudFunction').addEventListener('click', function(event) {
+        volumeChange(10);
+        document.getElementById('myRange').value=10;
+    });
     
     
     //---------------------------------------------------------------------------------------------------------website brightness Change
