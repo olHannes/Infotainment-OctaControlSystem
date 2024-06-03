@@ -17,6 +17,7 @@ from setAmbientLight import *
 from obdData import *
 from wifiControl import *
 from btControl import *
+from externalSites import *
 
 
 app = Flask(__name__)
@@ -102,7 +103,13 @@ def handle_ajax_request():
     elif action == 'deleteDTC':
         deleteDTC()
     elif action == 'startMaps':
-        pass
+        openMaps()
+    elif action == 'startSpotify':
+        openSpotify()
+    elif action == 'startDeezer':
+        openDeezer()
+    elif action == 'startRadio':
+        openRadio()
 
     return f"Aktion '{action}' erfolgreich ausgeführt!"
 
