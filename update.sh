@@ -14,3 +14,4 @@ sudo apt-get instal python3-alsaaudio
 pip install pyserial
 pip install gevent
 pip install flask-socketio eventlet pydbus pillow
+sudo apt install matchbox-keyboard

@@ -110,6 +110,9 @@ def handle_ajax_request():
         openDeezer()
     elif action == 'startRadio':
         openRadio()
+    elif action == 'setTastatur':
+        #sudo apt install matchbox-keyboard
+        os.system("matchbox-keyboard &")
 
     return f"Aktion '{action}' erfolgreich ausgeführt!"
 
