@@ -466,8 +466,8 @@ body{
 
             <img id="wlanFunction" src="static/wlan.png" alt="wifi">
             <img id="btFunction" src="static/bluetooth.png" alt="bluetooth">
-            <img id="muteFunction" src="static/mute.png" alt="loud" >
-            <img id="loudFunction" src="static/loud.png" alt="mute" style="display: none;">
+            <img id="muteFunction" src="static/mute.png" alt="loud" style="padding-left: 14px;">
+            <img id="loudFunction" src="static/loud.png" alt="mute" style="display: none; padding-left: 14px;">
 
             <button id="toggleButton" class="toggleButton">
                 <img id="buttonImage" src="static\Profil1.png" alt="Profilbild">
@@ -589,6 +589,11 @@ body{
         <img src="static/radio.png" alt="internet radio webapp" style="width: 117px; padding: 4px; background-color: black; border-radius: 14px;" onclick="openRadioSite()">
     </div>
     
+
+
+    <div id="bluetoothPanel" style="display: block; position: absolute; top: 10%; left: 22%; height: 50%; width: 61%; background-color: white; border-radius: 10px;">
+        <h2 style="font-family: 'Courier New', Courier, monospace; font-size: 15px; color: black; background-color: white; padding-left: 5px; width: 50px;" onclick="hideBTPanel()">back</h2>
+    </div>
 
 
 </div>
@@ -1114,7 +1119,10 @@ function clearLogger(){
 
 
     function openBTSite(){
-        console.log("openBTSite");
+        document.getElementById('bluetoothPanel').style.display="block";
+    }
+    function hideBTPanel(){
+        document.getElementById('bluetoothPanel').style.display="none";
     }
     function openDeezerSite() {
     checkInternetConnection()
