@@ -452,11 +452,12 @@ function clearLogger(event){
         hideStartButton();
         document.getElementById('ambientLight_ControlPanel').style.display="block";
     }
-    var colorArray = [0,0,0,0];
     
-    function getColor() {
-        
+    function setColor(sec, value){
+        console.log("new color");
+        console.log(sec+" "+ value);
     }
+
     
     
     //---------------------------------------------------------------------------------------------------------Function to start SoundControl Panel

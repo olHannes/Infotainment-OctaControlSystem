@@ -198,6 +198,90 @@ body{
 
 /*---------------------------------------------------------------------------------------------------------Style for ambientLight-Panel components*/
 
+#ambientLight_image{
+    position: absolute;
+    left: 38%;
+    top: 3%;
+    height: 73%;
+    width: 21%;
+}
+#ambientLight_image img {
+    height: 100%;
+    width: auto;
+    border-radius: 5px;
+}
+
+
+#sec_1{
+    position: absolute;
+    background-color: blue;
+    height: 50px;
+    width: 25px;
+    top: 34%;
+    left: 54%;
+}
+#sec_2{
+    position: absolute;
+    background-color: rgb(208, 5, 5);
+    height: 50px;
+    width: 25px;
+    top: 34%;
+    left: 52%;
+}
+
+#sec_3{
+    position: absolute;
+    background-color: blue;
+    height: 50px;
+    width: 25px;
+    top: 34%;
+    left: 49%;
+}
+#sec_4{
+    position: absolute;
+    background-color: rgb(208, 5, 5);
+    height: 50px;
+    width: 25px;
+    top: 34%;
+    left: 46.5%;
+}
+
+
+#sec_5{
+    position: absolute;
+    background-color: rgb(208, 5, 5);
+    height: 50px;
+    width: 28px;
+    top: 44%;
+    left: 46.5%;
+}
+#sec_6{
+    position: absolute;
+    background-color: blue;
+    height: 50px;
+    width: 27px;
+    top: 44%;
+    left: 49%;
+}
+
+#sec_7{
+    position: absolute;
+    background-color: rgb(208, 5, 5);
+    height: 50px;
+    width: 29px;
+    top: 44%;
+    left: 51.5%;
+}
+#sec_8{
+    position: absolute;
+    background-color: blue;
+    height: 50px;
+    width: 27px;
+    top: 44%;
+    left: 54%;
+}
+
+
 
 .color-picker {
   display: flex; 
@@ -524,10 +608,33 @@ body{
             <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Ambient Light-Control Panel</div>
         </div>
         
-        
+        <div id="sec_1"></div>
+        <div id="sec_2"></div>
+        <div id="sec_3"></div>
+        <div id="sec_4"></div>
+        <div id="sec_5"></div>
+        <div id="sec_6"></div>
+        <div id="sec_7"></div>
+        <div id="sec_8"></div>
 
 
+        <div id="ambientLight_image">
+            <img src="static/images/ambientLight_Car.png" alt="car image">
+        </div>
         
+
+        <input type="color" name="sec_1C" onchange="setColor(1, this.value)" style="position: absolute; top: 50%; left: 50%; height: 50px; width: 30px;">
+        <input type="color" name="sec_2C" onchange="setColor(2, this.value)" style="position: absolute; top: 50%; left: 54%; height: 50px; width: 30px;">
+
+        <input type="color" name="sec_3C" onchange="setColor(3, this.value)" style="position: absolute; top: 50%; left: 30%; height: 50px; width: 30px;">
+        <input type="color" name="sec_4C" onchange="setColor(4, this.value)" style="position: absolute; top: 50%; left: 34%; height: 50px; width: 30px;">
+
+        <input type="color" name="sec_5C" onchange="setColor(5, this.value)" style="position: absolute; top: 60%; left: 30%; height: 50px; width: 30px;">
+        <input type="color" name="sec_6C" onchange="setColor(6, this.value)" style="position: absolute; top: 60%; left: 34%; height: 50px; width: 30px;">
+
+        <input type="color" name="sec_7C" onchange="setColor(7, this.value)" style="position: absolute; top: 60%; left: 50%; height: 50px; width: 30px;">
+        <input type="color" name="sec_8C" onchange="setColor(8, this.value)" style="position: absolute; top: 60%; left: 54%; height: 50px; width: 30px;">
+
 
 
 
@@ -535,10 +642,6 @@ body{
         <div>
             <button class="start" onclick="backToStart()"></button>
         </div>
-        <div style="display: flex; align-items: center; position: absolute; height: 150px; width: 150px; top: 40%; right: 20%;">
-            <input type="color" id="color-picker-input" onchange="getColor()">
-        </div>
-
     </div>
        
     
@@ -711,7 +814,7 @@ body{
     <img src="static/images/zeiger.png" alt="Zeiger" style="position: absolute; height: 140px; transform-origin: center 133px; left: 40.5%; top: 26.5%; transform: rotate(-92deg);transition: all 0.4s ease;" id="zeiger">
     <div>
         <div style="width: 150px; height: 450px; position: absolute; left: 66%; top: 13%;">
-            <img style="width: 80%; height: 100%; position: absolute; top: 0; left: 0; transition: height 0.2s ease-in-out; border-radius: 5%; box-shadow: 9px 9px 17px -1px black" src="static/Drehzahl.png" alt="Leere Säule">
+            <img style="width: 80%; height: 100%; position: absolute; top: 0; left: 0; transition: height 0.2s ease-in-out; border-radius: 5%; box-shadow: 9px 9px 17px -1px black" src="static/images/Drehzahl.png" alt="Leere Säule">
             <img style="width: 80%; height: 100%; position: absolute; top: 0; left: 0; transition: height 0.2s ease-in-out; border-radius: 5%;" src="static/images/Drehzahl_.png" alt="Gefüllte Säule" id="rpmLevel">
             <img style="width: auto; height: 100%; position: absolute; top: 0; left: -10%; background-color: black; border-radius: 10px;" src="static/images/DrehzahlNum.png" alt="Drezhal Beschriftung">
         </div>
