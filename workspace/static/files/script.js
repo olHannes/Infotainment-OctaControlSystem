@@ -17,13 +17,14 @@ function logConsole(message) {
 
     consoleElement.scrollTop = consoleElement.scrollHeight;
 }
-function clearLogger(){
+function clearLogger(event){
     document.getElementById('console').innerHTML="";
     event.stopPropagation();
 }
 
     //---------------------------------------------------------------------------------------------------------hide Panels when they arent in use
     function clickOnBody(){
+        document.getElementById('blackscreen').style.display="none";
             logConsole("touch");
             if (document.getElementById('listBtDevice').style.display === 'block') {
                 document.getElementById('listBtDevice').style.display = 'none';
@@ -65,7 +66,7 @@ function clearLogger(){
     //---------------------------------------------------------------------------------------------------------function to connect to wifi
     
     var currentSelectedNetwork = '';
-    function wlanFunction(){
+    function wlanFunction(event){
         wlanConnection();
         event.stopPropagation();
     };
@@ -99,7 +100,7 @@ function clearLogger(){
             if (data.hasOwnProperty(key)) {
                 let listItem = document.createElement("h2");
                 listItem.textContent = data[key];
-                listItem.setAttribute("onclick", "showWifiDetails('" + data[key] + "')");
+                listItem.setAttribute("onclick", "showWifiDetails('" + data[key] + "',)");
                 listWifiNetwork.appendChild(listItem);
             }
         }
@@ -116,7 +117,6 @@ function clearLogger(){
         currentSelectedNetwork = selectedNetwork;
         document.getElementById('wifiPassword').focus();
         sendData("setTastatur", {"level": true});
-        event.stopPropagation();
     }
 
     function connectWifi(){
@@ -131,7 +131,7 @@ function clearLogger(){
     //---------------------------------------------------------------------------------------------------------function to connect to bt
     
     
-    function btFunction(){
+    function btFunction(event){
         btConnection();
         event.stopPropagation();
     };
@@ -350,6 +350,12 @@ function clearLogger(){
         dtc.textContent="-";
     }
     
+
+    function changeToBlackscreen(event){
+        event.stopPropagation();
+        document.getElementById('blackscreen').style.display="block";
+    }
+
     //---------------------------------------------------------------------------------------------------------Function to exit OCS
     function exit(){
         document.getElementById('buttonContainer').style.display="none";
