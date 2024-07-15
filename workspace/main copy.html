@@ -197,34 +197,6 @@ body{
 
 
 /*---------------------------------------------------------------------------------------------------------Style for ambientLight-Panel components*/
-.toggleContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.toggleContainer label {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-.toggleContainer input[type="checkbox"] {
-    display: none;
-}
-
-.toggleContainer img {
-    width: 290px;
-    height: 160px;
-    cursor: pointer;
-    border-radius: 40px;
-}
-
-.toggleContainer input[type="checkbox"]:checked + img {
-    opacity: 1;
-    -webkit-box-shadow: 9px 9px 17px -1px white; 
-    box-shadow: 9px 9px 17px -1px white;
-}
 
 
 .color-picker {
@@ -551,28 +523,14 @@ body{
         <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 12%; background-color: var(--bar_1); z-index: 80; color: var(--text); opacity: 0.74;" id="lightBar">
             <div style="position: fixed; bottom: 40px; left: 2%; font-size: 120%; font-family: 'Courier New', Courier, monospace;">Ambient Light-Control Panel</div>
         </div>
-        <div style="position: fixed; top: 2%; left: 20%; background-color: var(--buttonContainerColor_1); padding: 5px; border-radius: 20px;" id="seatLight">
-            <div class="toggleContainer">
-                <label for="toggleBtn1">
-                    <input type="checkbox" id="toggleBtn1">
-                    <img src="static\\images\\vl.png" alt="Button 1">
-                </label>
-                <label for="toggleBtn2">
-                    <input type="checkbox" id="toggleBtn2">
-                    <img src="static\\images\\vr.png" alt="Button 2">
-                </label>
-            </div>
-            <div class="toggleContainer">
-                <label for="toggleBtn3">
-                    <input type="checkbox" id="toggleBtn3">
-                    <img src="static\\images\\hl.png" alt="Button 3">
-                </label>
-                <label for="toggleBtn4">
-                    <input type="checkbox" id="toggleBtn4">
-                    <img src="static\\images\\hr.png" alt="Button 4">
-                </label>
-            </div>
-        </div>
+        
+        
+
+
+        
+
+
+
         
         <div>
             <button class="start" onclick="backToStart()"></button>

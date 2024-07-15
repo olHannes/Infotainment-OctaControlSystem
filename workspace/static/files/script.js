@@ -229,7 +229,6 @@ function clearLogger(event){
             document.getElementById('sidePanel_').style.backgroundColor = "var(--sidePanel_2)";
             document.getElementById('volumeLevelBox').style.backgroundColor = "var(--volumeSliderBox_2)";
             document.getElementById('buttonContainer').style.backgroundColor = "var(--buttonContainerColor_2)";
-            document.getElementById('seatLight').style.backgroundColor = "var(--buttonContainerColor_2)";
         } else {
             document.getElementById("console").textContent+="change to Profile 1\n";
             document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
@@ -242,7 +241,6 @@ function clearLogger(event){
             document.getElementById('sidePanel_').style.backgroundColor = "var(--sidePanel_1)";
             document.getElementById('volumeLevelBox').style.backgroundColor = "var(--volumeSliderBox_1)";
             document.getElementById('buttonContainer').style.backgroundColor = "var(--buttonContainerColor_1)";
-            document.getElementById('seatLight').style.backgroundColor = "var(--buttonContainerColor_1)";
         }
     };
     
@@ -457,24 +455,7 @@ function clearLogger(event){
     var colorArray = [0,0,0,0];
     
     function getColor() {
-        var color = document.getElementById("color-picker-input").value;
-        var selectedImages = document.querySelectorAll(".toggleContainer input[type='checkbox']:checked + img");
-        selectedImages.forEach(function(image) {
-            var imageId = image.alt.split(" ")[1];
-            var index = parseInt(imageId) - 1;
-            colorArray[index] = color;
-        });
-    
-        document.querySelectorAll(".toggleContainer input[type='checkbox']:not(:checked) + img").forEach(function(image) {
-            var imageId = image.alt.split(" ")[1];
-            var index = parseInt(imageId) - 1;
-            if (!colorArray[index]) {
-                colorArray[index] = "000000";
-            }
-        });
-        logConsole("set ambient Light:");
-        logConsole(colorArray);
-        sendData("ambientLight", {"level": colorArray});
+        
     }
     
     

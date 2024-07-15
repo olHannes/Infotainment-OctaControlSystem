@@ -36,7 +36,6 @@ controller=None
 def default():
     try:
         set_volume(10)
-        #setLEDColor(['#616161', '#616161', '#616161', '#616161'])
     except:
         print("Error_x.1")
 
@@ -64,8 +63,6 @@ def handle_ajax_request():
     elif action == 'volume':
         set_volume(data.get('level'))
 
-    elif action == 'ambientLight':
-        setLEDColor(data.get('level'))
 
     elif action == 'setWifi':
         wifiData= data.get('level')
