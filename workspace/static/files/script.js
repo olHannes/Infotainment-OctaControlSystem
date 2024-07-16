@@ -439,12 +439,6 @@ function clearLogger(event){
         animateSlider(currentValue, 0);
     }
       
-    document.getElementById("turnOffSwitch").addEventListener('touchend', function() {
-        resetSliderValue();
-        });
-    document.getElementById("turnOffSwitch").addEventListener('mouseup', function(){
-        resetSliderValue();
-    });
     
     
     //---------------------------------------------------------------------------------------------------------Function to start LightControl Panel
@@ -458,6 +452,21 @@ function clearLogger(event){
         console.log(sec+" "+ value);
     }
 
+    function changeColor(sec, value){
+        const aktDiv=document.getElementById('sec_'+sec);
+        aktDiv.style.backgroundColor=value;
+    }
+
+    function setNewColor(sec, value){
+        const formData = new FormData();
+        formData.append('section', sec);
+        formData.append('color', JSON.stringify(value));
+    
+        fetch('/ambientLight/', {
+            method: 'POST',
+            body: formData
+        });
+    }
     
     
     //---------------------------------------------------------------------------------------------------------Function to start SoundControl Panel

@@ -200,9 +200,9 @@ body{
 
 #ambientLight_image{
     position: absolute;
-    left: 38%;
+    left: 37%;
     top: 3%;
-    height: 73%;
+    height: 84%;
     width: 21%;
 }
 #ambientLight_image img {
@@ -214,19 +214,19 @@ body{
 
 #sec_1{
     position: absolute;
-    background-color: blue;
-    height: 50px;
-    width: 25px;
-    top: 34%;
-    left: 54%;
-}
-#sec_2{
-    position: absolute;
     background-color: rgb(208, 5, 5);
     height: 50px;
     width: 25px;
-    top: 34%;
-    left: 52%;
+    top: 40%;
+    left: 56%;
+}
+#sec_2{
+    position: absolute;
+    background-color: blue;
+    height: 50px;
+    width: 25px;
+    top: 39%;
+    left: 53.5%;
 }
 
 #sec_3{
@@ -234,16 +234,16 @@ body{
     background-color: blue;
     height: 50px;
     width: 25px;
-    top: 34%;
+    top: 39%;
     left: 49%;
 }
 #sec_4{
     position: absolute;
     background-color: rgb(208, 5, 5);
-    height: 50px;
+    height: 55px;
     width: 25px;
-    top: 34%;
-    left: 46.5%;
+    top: 39%;
+    left: 47%;
 }
 
 
@@ -252,33 +252,33 @@ body{
     background-color: rgb(208, 5, 5);
     height: 50px;
     width: 28px;
-    top: 44%;
-    left: 46.5%;
+    top: 50%;
+    left: 47%;
 }
 #sec_6{
     position: absolute;
     background-color: blue;
-    height: 50px;
-    width: 27px;
-    top: 44%;
-    left: 49%;
+    height: 60px;
+    width: 33px;
+    top: 49%;
+    left: 49.6%;
 }
 
 #sec_7{
     position: absolute;
     background-color: rgb(208, 5, 5);
-    height: 50px;
-    width: 29px;
-    top: 44%;
-    left: 51.5%;
+    height: 60px;
+    width: 31px;
+    top: 49%;
+    left: 52.5%;
 }
 #sec_8{
     position: absolute;
     background-color: blue;
-    height: 50px;
+    height: 57px;
     width: 27px;
-    top: 44%;
-    left: 54%;
+    top: 50%;
+    left: 55.5%;
 }
 
 
@@ -623,17 +623,17 @@ body{
         </div>
         
 
-        <input type="color" name="sec_1C" onchange="setColor(1, this.value)" style="position: absolute; top: 50%; left: 50%; height: 50px; width: 30px;">
-        <input type="color" name="sec_2C" onchange="setColor(2, this.value)" style="position: absolute; top: 50%; left: 54%; height: 50px; width: 30px;">
+        <input type="color" name="sec_1C" oninput="changeColor(1, this.value)" onchange="setNewColor(1, this.value)" style="position: absolute; top: 40%; left: 78%; height: 50px; width: 55px;">
+        <input type="color" name="sec_2C" oninput="changeColor(2, this.value)" onchange="setNewColor(2, this.value)" style="position: absolute; top: 40%; left: 69%; height: 50px; width: 55px;">
 
-        <input type="color" name="sec_3C" onchange="setColor(3, this.value)" style="position: absolute; top: 50%; left: 30%; height: 50px; width: 30px;">
-        <input type="color" name="sec_4C" onchange="setColor(4, this.value)" style="position: absolute; top: 50%; left: 34%; height: 50px; width: 30px;">
+        <input type="color" name="sec_3C" oninput="changeColor(3, this.value)" onchange="setNewColor(3, this.value)" style="position: absolute; top: 40%; left: 29%; height: 50px; width: 55px;">
+        <input type="color" name="sec_4C" oninput="changeColor(4, this.value)" onchange="setNewColor(4, this.value)" style="position: absolute; top: 40%; left: 21%; height: 50px; width: 55px;">
 
-        <input type="color" name="sec_5C" onchange="setColor(5, this.value)" style="position: absolute; top: 60%; left: 30%; height: 50px; width: 30px;">
-        <input type="color" name="sec_6C" onchange="setColor(6, this.value)" style="position: absolute; top: 60%; left: 34%; height: 50px; width: 30px;">
+        <input type="color" name="sec_5C" oninput="changeColor(5, this.value)" onchange="setNewColor(5, this.value)" style="position: absolute; top: 53%; left: 21%; height: 50px; width: 55px;">
+        <input type="color" name="sec_6C" oninput="changeColor(6, this.value)" onchange="setNewColor(6, this.value)" style="position: absolute; top: 53%; left: 29%; height: 50px; width: 55px;">
 
-        <input type="color" name="sec_7C" onchange="setColor(7, this.value)" style="position: absolute; top: 60%; left: 50%; height: 50px; width: 30px;">
-        <input type="color" name="sec_8C" onchange="setColor(8, this.value)" style="position: absolute; top: 60%; left: 54%; height: 50px; width: 30px;">
+        <input type="color" name="sec_7C" oninput="changeColor(7, this.value)" onchange="setNewColor(7, this.value)" style="position: absolute; top: 53%; left: 69%; height: 50px; width: 55px;">
+        <input type="color" name="sec_8C" oninput="changeColor(8, this.value)" onchange="setNewColor(8, this.value)" style="position: absolute; top: 53%; left: 78%; height: 50px; width: 55px;">
 
 
 
@@ -889,7 +889,8 @@ body{
     <div class="console" id="console"> </div>
     <button style="color: white; background-color: black; position: absolute; bottom: 15%; left: 20%; height: 17px; width: 44px; padding: 0;" onclick="clearLogger(event)">clear</button>
 
-    <input type="range" min="0" max="100" value="0" step="1" class="turnOffSwitch" id="turnOffSwitch">
+    <input type="range" min="0" max="100" value="0" step="1" class="turnOffSwitch" id="turnOffSwitch" ontouchend="resetSliderValue()" onmouseup="resetSliderValue()">
+
     <div>
         <input type="range" min="50" max="200" value="100" step="1" class="brightnessLevel" id="brightnessLevel" oninput="brightnessLevelChange(this.value)">
     </div>
