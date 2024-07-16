@@ -189,6 +189,13 @@ def BtSearch():
     return jsonify(bt_data)
 
 
+@app.route('/ambientLight', methods=['GET'])
+def setAmbientLight():
+    section = request.form['section']
+    color = json.loads(request.form['section'])
+    setLEDColor(section, color)
+
+
 @app.route('/')
 def serve_main_page():
     return send_file('main copy.html')
