@@ -446,27 +446,27 @@ function clearLogger(event){
         hideStartButton();
         document.getElementById('ambientLight_ControlPanel').style.display="block";
     }
-    
-    function setColor(sec, value){
-        console.log("new color");
-        console.log(sec+" "+ value);
-    }
+
 
     function changeColor(sec, value){
         const aktDiv=document.getElementById('sec_'+sec);
         aktDiv.style.backgroundColor=value;
     }
 
-    function setNewColor(sec, value){
+    function setNewColor(sec, value) {
         const formData = new FormData();
         formData.append('section', sec);
-        formData.append('color', JSON.stringify(value));
-    
-        fetch('/ambientLight/', {
+        
+        const newValue = value.replace('#', '');
+        formData.append('color', JSON.stringify(newValue));
+        
+        console.log(sec + " " + newValue);
+        fetch('/ambientLight', {
             method: 'POST',
             body: formData
         });
     }
+    
     
     
     //---------------------------------------------------------------------------------------------------------Function to start SoundControl Panel

@@ -1,12 +1,6 @@
 from flask import Flask, send_file, request, jsonify
 import json
-import time
-import serial
-import obd
-import random
-import os
-import subprocess
-import webbrowser
+
 
 
 
@@ -109,7 +103,8 @@ def handle_ajax_request():
         openRadio()
     elif action == 'setTastatur':
         #sudo apt install matchbox-keyboard
-        os.system("matchbox-keyboard &")
+        #os.system("matchbox-keyboard &")
+        pass
 
     return f"Aktion '{action}' erfolgreich ausgeführt!"
 

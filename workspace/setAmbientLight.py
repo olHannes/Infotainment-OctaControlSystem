@@ -12,7 +12,7 @@ def send(data):
         print("Error_2")
 
 def setLEDColor(sec, color):
-    colorText=sec+color
+    colorText = str(sec) + color
     print(colorText)
 
     try:
