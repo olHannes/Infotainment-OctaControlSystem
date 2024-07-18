@@ -184,13 +184,17 @@ def BtSearch():
     return jsonify(bt_data)
 
 
-@app.route('/ambientLight', methods=['GET'])
+@app.route('/ambientLight', methods=['POST'])
 def setAmbientLight():
-    section = request.form['section']
-    color = json.loads(request.form['section'])
-    setLEDColor(section, color)
-
-
+    try:
+        section = request.form['section']
+        color = request.form['color']
+        
+        setLEDColor(section, color)
+        return jsonify({'message': 'LED color set successfully'}), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 @app.route('/')
 def serve_main_page():
     return send_file('main copy.html')

@@ -9,7 +9,7 @@ fehler=['P0700','P0100']
 
 
 
-async def read_obd_data():
+async def read_obd_dataOriginal():
     try:
         connection = obd.OBD()
         
@@ -86,3 +86,32 @@ def deleteDTC():
         fehler=''
         if connection:
             connection.close()
+
+
+
+async def read_obd_data():
+    global runtimeV
+    global batteryVoltageV
+    global fehler
+
+    obd_data = {}
+
+    obd_data['rpm'] = random.randint(800, 6000)
+    obd_data['speed'] = random.randint(0, 200)
+    obd_data['coolant_temp'] = random.randint(70, 100)
+    obd_data['engine_load'] = random.randint(0, 100)
+    obd_data['maf'] = round(random.uniform(2, 10), 2)
+    obd_data['runtime'] = runtimeV
+    obd_data['dtc'] = fehler
+    obd_data['fuel_status'] = 'OK'
+    obd_data['load_abs'] = random.randint(0, 100)
+    obd_data['fuel_pressure'] = random.randint(200, 450)
+    obd_data['fuel_rate'] = round(random.uniform(1, 20), 2)
+    obd_data['vin'] = '1234567890'
+    obd_data['current_data'] = 'Dummy data'
+    obd_data['battery_voltage'] = batteryVoltageV
+
+    runtimeV+=0.1
+    batteryVoltageV+= round(random.uniform(-0.2, 0.2), 2)
+    print("-----------------------------------")
+    return obd_data
