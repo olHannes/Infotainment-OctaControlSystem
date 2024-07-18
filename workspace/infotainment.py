@@ -64,6 +64,8 @@ def handle_ajax_request():
         wifiNum = parts[0]
         password = parts[1]
         connect_to_network(wifiNum-1, password)
+    elif action == 'enableBT':
+        enable_pairing_mode()
 
     elif action == 'play':
         if controller:

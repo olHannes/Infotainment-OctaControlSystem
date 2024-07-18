@@ -148,15 +148,7 @@ function clearLogger(event){
     }
 
     function getBtDevices() {
-        fetch('/get_bt_devices', {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Empfangene Bluetooth-Devices:", data);
-            listDevices(data);
-        })
-        .catch(error => console.error('Error fetching bluetooth devices:', error));
+        sendData("enableBT", {"level": true});
     }
 
     function listDevices(data){
