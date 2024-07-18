@@ -1,5 +1,6 @@
 import subprocess
 import time
+import threading
 from pydbus import SystemBus
 from gi.repository import GLib
 import io
@@ -18,11 +19,39 @@ def scan_bluetooth_devices():
         print("Error:", e.output)
         return []
 
+pairing_timer = None
+timer_thread = None
+timer_lock = threading.Lock()
+
 def enable_pairing_mode():
+    global pairing_timer
+    global timer_thread
+    
+    with timer_lock:
+        if pairing_timer:
+            pairing_timer.cancel()
+        if timer_thread and timer_thread.is_alive():
+            timer_thread.join()
+    
+    # Starte Pairing-Modus
     try:
         subprocess.run(["bluetoothctl", "discoverable", "on"], check=True)
         subprocess.run(["bluetoothctl", "pairable", "on"], check=True)
         print("Pairing mode enabled. Raspberry Pi is now discoverable and pairable.")
+        
+        # Starte einen neuen Timer
+        pairing_timer = threading.Timer(30.0, disable_pairing_mode)
+        timer_thread = threading.Thread(target=pairing_timer.start)
+        timer_thread.start()
+        
+    except subprocess.CalledProcessError as e:
+        print("Error:", e)
+
+def disable_pairing_mode():
+    try:
+        subprocess.run(["bluetoothctl", "discoverable", "off"], check=True)
+        subprocess.run(["bluetoothctl", "pairable", "off"], check=True)
+        print("Pairing mode disabled. Raspberry Pi is no longer discoverable and pairable.")
     except subprocess.CalledProcessError as e:
         print("Error:", e)
 
@@ -121,3 +150,7 @@ class BluetoothController:
     def previous(self):
         if self.player:
             self.player.Previous()
+            
+            
+            
+
